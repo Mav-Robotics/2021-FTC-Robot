@@ -22,13 +22,14 @@ public class Arm extends SubsystemBase {
 
         m_armMotor = armMotor;
         m_telemetry = telemetry;
-        kS = 0.0;
-        kCos = 0.0;
-        kV = 0.0;
-        kA = 0.0;
+//        kS = 0.0;
+//        kCos = 0.0;
+//        kV = 0.0;
+//        kA = 0.0;
+//
+//        ArmFeedforward feedforward = new ArmFeedforward(kS, kCos, kV, kA);
+//        telemetry.addData("Arm Values", "kS: %d, kCos: %d, kV: %d, kA: %d", kS, kCos, kV, kA);
 
-        ArmFeedforward feedforward = new ArmFeedforward(kS, kCos, kV, kA);
-        telemetry.addData("Arm Values", "kS: %d, kCos: %d, kV: %d, kA: %d", kS, kCos, kV, kA);
 
         m_telemetry.addLine("Arm Initialized");
 
@@ -43,9 +44,12 @@ public class Arm extends SubsystemBase {
     public void driveToSetPoint(Integer setpoint) {
         m_pid.setSetPoint(setpoint);
         m_telemetry.addData("Arm Setpoint", m_pid.getSetPoint());
+        m_telemetry.addData("Arm Position", m_armMotor.getCurrentPosition());
     }
 
     public void drive(Double speed) {
         m_armMotor.set(speed);
     }
+
+    public void stopAll() { m_armMotor.set(0); }
 }

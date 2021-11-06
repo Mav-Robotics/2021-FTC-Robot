@@ -1,54 +1,37 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.RevIMU;
-import com.arcrobotics.ftclib.hardware.SensorColor;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.commands.ArmDriveBackward;
 import org.firstinspires.ftc.teamcode.commands.ArmDriveForward;
 import org.firstinspires.ftc.teamcode.commands.ArmToPosition;
-import org.firstinspires.ftc.teamcode.commands.CarouselDriveBackward;
-import org.firstinspires.ftc.teamcode.commands.CarouselDriveForward;
 import org.firstinspires.ftc.teamcode.commands.DefaultDrive;
 import org.firstinspires.ftc.teamcode.commands.IntakeIn;
 import org.firstinspires.ftc.teamcode.commands.IntakeOut;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
-import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
 
-import java.io.IOException;
 
-
-@TeleOp(name="Robot TeleOp", group="Competition")
-public class RobotTeleOp extends CommandOpMode {
+@TeleOp(name="Robot TeleOp - No Servos", group="Competition")
+public class RobotTeleOpNoServos extends CommandOpMode {
 
     static final String DRIVE_MODE = "RC";
-    static final Boolean INTAKE_ENABLED = true;
+    static final Boolean INTAKE_ENABLED = false;
     static final Boolean ARM_ENABLED = true;
-    static final Boolean CAROUSEL_ENABLED = true;
-
 
     @Override
     public void initialize() {
@@ -56,10 +39,10 @@ public class RobotTeleOp extends CommandOpMode {
         telemetry.setAutoClear(true);
 
         // Drive Motors
-        MotorEx motorBackLeft = new MotorEx(hardwareMap, "motorBackLeft", Motor.GoBILDA.RPM_312);
-        MotorEx motorBackRight = new MotorEx(hardwareMap, "motorBackRight", Motor.GoBILDA.RPM_312);
-        MotorEx motorFrontLeft = new MotorEx(hardwareMap, "motorFrontLeft", Motor.GoBILDA.RPM_312);
-        MotorEx motorFrontRight = new MotorEx(hardwareMap, "motorFrontRight", Motor.GoBILDA.RPM_312);
+        MotorEx motorBackLeft = new MotorEx(hardwareMap, "motorBackLeft", Motor.GoBILDA.RPM_223);
+        MotorEx motorBackRight = new MotorEx(hardwareMap, "motorBackRight", Motor.GoBILDA.RPM_223);
+        MotorEx motorFrontLeft = new MotorEx(hardwareMap, "motorFrontLeft", Motor.GoBILDA.RPM_223);
+        MotorEx motorFrontRight = new MotorEx(hardwareMap, "motorFrontRight", Motor.GoBILDA.RPM_223);
 
         ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
         RevTouchSensor touchSensor = hardwareMap.get(RevTouchSensor.class, "touchSensor");
@@ -77,8 +60,6 @@ public class RobotTeleOp extends CommandOpMode {
 
         //Gamepad
         GamepadEx m_driverGamepad = new GamepadEx(gamepad1);
-        GamepadEx m_operatorGamepad = new GamepadEx(gamepad2);
-
 
 
         // Drivetrain Subsystem
@@ -135,46 +116,20 @@ public class RobotTeleOp extends CommandOpMode {
             Holding the DPAD_RIGHT drives the arm forward at a set speed using the ArmDriveForward
              */
 
-            MotorEx motorArm = new MotorEx(hardwareMap, "motorArm", Motor.GoBILDA.RPM_312);
-            motorArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+            MotorEx motorArm = new MotorEx(hardwareMap, "motorArm");
             motorArm.resetEncoder();
 
             Arm m_arm = new Arm(motorArm, telemetry);
 
-            GamepadButton driver_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
-            GamepadButton driver_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
-            GamepadButton driver_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
-            GamepadButton driver_dpad_right = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
+            GamepadButton dpad_up = m_driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
+            GamepadButton dpad_down = m_driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
+            GamepadButton dpad_left = m_driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
+            GamepadButton dpad_right = m_driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
 
-//            dpad_up.whenPressed(new ArmToPosition(m_arm, 100, telemetry));
-//            dpad_down.whenPressed(new ArmToPosition(m_arm, 0, telemetry));
-            driver_dpad_left.whileHeld(new ArmDriveBackward(m_arm, telemetry)).whenReleased(() -> m_arm.stopAll());
-            driver_dpad_right.whileHeld(new ArmDriveForward(m_arm, telemetry)).whenReleased(() -> m_arm.stopAll());
-        }
-
-        if (CAROUSEL_ENABLED) {
-            /* Carousel subsystem
-
-            Enabled/disabled at the top setting the ARM_ENABLED value to true/false
-
-
-            Holding the DPAD_LEFT drives the arm backwards at a set speed using the CarouselDriveBackward
-            Holding the DPAD_RIGHT drives the arm forward at a set speed using the CarouselDriveForward
-             */
-
-            CRServo servoCarousel = new CRServo(hardwareMap, "servoArm");
-
-            Carousel m_carousel = new Carousel(servoCarousel, telemetry);
-
-            GamepadButton oper_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
-            GamepadButton oper_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
-            GamepadButton oper_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
-            GamepadButton oper_dpad_right = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
-
-//            oper_dpad_up.whenPressed(new ArmToPosition(m_arm, 100, telemetry));
-//            oper_dpad_down.whenPressed(new ArmToPosition(m_arm, 0, telemetry));
-            oper_dpad_left.whileHeld(new CarouselDriveBackward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll());
-            oper_dpad_right.whileHeld(new CarouselDriveForward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll());
+            dpad_up.whenPressed(new ArmToPosition(m_arm, 100, telemetry));
+            dpad_down.whenPressed(new ArmToPosition(m_arm, 0, telemetry));
+            dpad_left.whileHeld(new ArmDriveBackward(m_arm, telemetry)).whenReleased(() -> m_arm.stopAll());
+            dpad_right.whileHeld(new ArmDriveForward(m_arm, telemetry)).whenReleased(() -> m_arm.stopAll());
         }
 
         telemetry.addLine("Robot Initialized");
