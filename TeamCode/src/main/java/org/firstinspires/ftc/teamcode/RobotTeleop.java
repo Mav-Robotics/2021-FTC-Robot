@@ -35,7 +35,7 @@ public class RobotTeleop extends CommandOpMode {
     static final Boolean INTAKE_ENABLED = true;
     static final Boolean ARM_ENABLED = true;
     static final Boolean CAROUSEL_ENABLED = true;
-
+    static final Boolean SENSORS_ENABLED = true;
 
     @Override
     public void initialize() {
@@ -47,12 +47,6 @@ public class RobotTeleop extends CommandOpMode {
         MotorEx motorBackRight = new MotorEx(hardwareMap, "motorBackRight", Motor.GoBILDA.RPM_312);
         MotorEx motorFrontLeft = new MotorEx(hardwareMap, "motorFrontLeft", Motor.GoBILDA.RPM_312);
         MotorEx motorFrontRight = new MotorEx(hardwareMap, "motorFrontRight", Motor.GoBILDA.RPM_312);
-
-//        ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
-//        RevTouchSensor touchSensor = hardwareMap.get(RevTouchSensor.class, "touchSensor");
-//
-//        Sensors m_sensors = new Sensors(colorSensor, touchSensor, telemetry);
-
 
 
 
@@ -81,9 +75,15 @@ public class RobotTeleop extends CommandOpMode {
         register(m_defaultdrive);
         m_defaultdrive.setDefaultCommand(new DefaultDrive(m_defaultdrive, m_driverGamepad, telemetry));
 
-//        Vision m_vision = new Vision(hardwareMap, telemetry);
-//        register(m_vision);
+        if (SENSORS_ENABLED) {
+            Vision m_vision = new Vision(hardwareMap, telemetry);
+            register(m_vision);
 
+            ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+            RevTouchSensor touchSensor = hardwareMap.get(RevTouchSensor.class, "touchSensor");
+
+            Sensors m_sensors = new Sensors(colorSensor, touchSensor, telemetry);
+        }
 
         if (INTAKE_ENABLED) {
             /* Intake subsystem

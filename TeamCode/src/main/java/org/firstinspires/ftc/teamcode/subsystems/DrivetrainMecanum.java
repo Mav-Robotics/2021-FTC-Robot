@@ -16,11 +16,10 @@ public class DrivetrainMecanum extends SubsystemBase {
     BNO055IMU m_imu;
     MotorEx m_motorFrontLeft, m_motorFrontRight, m_motorBackLeft, m_motorBackRight;
 
-
-    static final Double MAX_RAMP = 0.01;
-    Double m_strafeMultiplier = 1.0;
-    Double m_forwardMultiplier = 1.0;
-    Double m_turnMultiplier = 0.5;
+    static final Double STRAFE_MULT = 1.0;
+    static final Double FORWARD_MULT = 1.0;
+    static final Double TURN_MULT = 0.5;
+    static final Double CLICKS_PER_REV = 28.0;
 
 
 
@@ -38,6 +37,10 @@ public class DrivetrainMecanum extends SubsystemBase {
         m_motorBackLeft = motorBackLeft;
         m_motorBackRight = motorBackRight;
 
+        m_motorFrontLeft.setDistancePerPulse(CLICKS_PER_REV);
+        m_motorFrontRight.setDistancePerPulse(CLICKS_PER_REV);
+        m_motorBackLeft.setDistancePerPulse(CLICKS_PER_REV);
+        m_motorBackRight.setDistancePerPulse(CLICKS_PER_REV);
 
         m_drivetrain = new MecanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
 
@@ -64,9 +67,9 @@ public class DrivetrainMecanum extends SubsystemBase {
         you point them. As if you were looking at the field from the top down
          */
 
-        strafeSpeed = strafeSpeed * m_strafeMultiplier;
-        forwardSpeed = forwardSpeed * m_forwardMultiplier;
-        turnSpeed = turnSpeed * m_turnMultiplier;
+        strafeSpeed = strafeSpeed * STRAFE_MULT;
+        forwardSpeed = forwardSpeed * FORWARD_MULT;
+        turnSpeed = turnSpeed * TURN_MULT;
 
         if (m_drivemode.equals("RC")) {
             m_drivetrain.driveRobotCentric(strafeSpeed,forwardSpeed,
@@ -77,5 +80,9 @@ public class DrivetrainMecanum extends SubsystemBase {
                     forwardSpeed,
                     turnSpeed, m_gyro.getHeading());
         }
+    }
+
+    public double getFrontLeftDistance() {
+        m_motorFrontLeft.getDistance();
     }
 }
