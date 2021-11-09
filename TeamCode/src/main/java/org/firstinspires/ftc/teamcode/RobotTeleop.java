@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.hardware.GyroEx;
 import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -54,8 +55,6 @@ public class RobotTeleop extends CommandOpMode {
         RevIMU m_gyro = new RevIMU(hardwareMap, "imu");
         m_gyro.reset();
 
-        BNO055IMU m_imu = hardwareMap.get(BNO055IMU.class, "imu");
-
         //Gamepad
         GamepadEx m_driverGamepad = new GamepadEx(gamepad1);
         GamepadEx m_operatorGamepad = new GamepadEx(gamepad2);
@@ -65,7 +64,7 @@ public class RobotTeleop extends CommandOpMode {
         // Drivetrain Subsystem
         DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
                                                                  motorFrontLeft, motorFrontRight,
-                                                                 telemetry, m_gyro, DRIVE_MODE, m_imu);
+                                                                 telemetry, m_gyro, DRIVE_MODE);
 
 
         /* Default Drive Command

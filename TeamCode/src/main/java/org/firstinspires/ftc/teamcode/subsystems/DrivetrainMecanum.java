@@ -19,30 +19,36 @@ public class DrivetrainMecanum extends SubsystemBase {
     static final Double STRAFE_MULT = 1.0;
     static final Double FORWARD_MULT = 1.0;
     static final Double TURN_MULT = 0.5;
-    static final Double CLICKS_PER_REV = 28.0;
+    static final Double WHEEL_DIAMETER = 6.0;
+
+    static final Double MM_PER_REV = Math.PI * WHEEL_DIAMETER;
 
 
 
     public DrivetrainMecanum(MotorEx motorBackLeft, MotorEx motorBackRight,
                              MotorEx motorFrontLeft, MotorEx motorFrontRight,
-                             Telemetry telemetry, RevIMU gyro, String drivemode,
-                             BNO055IMU imu) {
+                             Telemetry telemetry, RevIMU gyro, String drivemode) {
 
         m_gyro = gyro;
         m_telemetry = telemetry;
         m_drivemode = drivemode;
-        m_imu = imu;
+        m_imu = m_gyro.getRevIMU();
         m_motorFrontLeft = motorFrontLeft;
         m_motorFrontRight = motorFrontRight;
         m_motorBackLeft = motorBackLeft;
         m_motorBackRight = motorBackRight;
 
-        m_motorFrontLeft.setDistancePerPulse(CLICKS_PER_REV);
-        m_motorFrontRight.setDistancePerPulse(CLICKS_PER_REV);
-        m_motorBackLeft.setDistancePerPulse(CLICKS_PER_REV);
-        m_motorBackRight.setDistancePerPulse(CLICKS_PER_REV);
+        m_motorFrontLeft.setDistancePerPulse(MM_PER_REV);
+        m_motorFrontRight.setDistancePerPulse(MM_PER_REV);
+        m_motorBackLeft.setDistancePerPulse(MM_PER_REV);
+        m_motorBackRight.setDistancePerPulse(MM_PER_REV);
 
         m_drivetrain = new MecanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
+
+        m_motorFrontLeft.resetEncoder();
+        m_motorBackLeft.resetEncoder();
+        m_motorBackRight.resetEncoder();
+        m_motorFrontRight.resetEncoder();
 
         m_telemetry.addLine("Drivetrain Initialized");
 
@@ -54,7 +60,9 @@ public class DrivetrainMecanum extends SubsystemBase {
         m_telemetry.addData("Acceleration", m_imu.getAcceleration());
         m_telemetry.addData("Heading", m_gyro.getHeading());
         m_telemetry.addData("Motor Speeds","backLeft: %.2f, backRight: %.2f, frontLeft: %.2f, frontRight: %.2f",
-                m_motorBackLeft.get(), m_motorBackRight.get(), m_motorFrontLeft.get(), m_motorFrontRight.get());
+                            m_motorBackLeft.get(), m_motorBackRight.get(), m_motorFrontLeft.get(), m_motorFrontRight.get());
+        m_telemetry.addData("Encoder Values","backLeft: %d, backRight: %d, frontLeft: %d, frontRight: %d",
+                            m_motorBackLeft.getCurrentPosition(), m_motorBackRight.getCurrentPosition(), m_motorFrontLeft.getCurrentPosition(), m_motorFrontRight.getCurrentPosition());
     }
 
 
@@ -82,7 +90,4 @@ public class DrivetrainMecanum extends SubsystemBase {
         }
     }
 
-    public double getFrontLeftDistance() {
-        m_motorFrontLeft.getDistance();
-    }
 }
