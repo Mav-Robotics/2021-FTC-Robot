@@ -1,24 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.button.GamepadButton;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.rev.RevTouchSensor;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.commands.ArmDriveBackward;
-import org.firstinspires.ftc.teamcode.commands.ArmDriveForward;
-import org.firstinspires.ftc.teamcode.commands.CarouselDriveBackward;
-import org.firstinspires.ftc.teamcode.commands.CarouselDriveForward;
-import org.firstinspires.ftc.teamcode.commands.DefaultDrive;
-import org.firstinspires.ftc.teamcode.commands.IntakeIn;
-import org.firstinspires.ftc.teamcode.commands.IntakeOut;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
@@ -26,9 +16,10 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
 
+import com.arcrobotics.ftclib.geometry.Vector2d;
 
-@TeleOp(name="RobotTeleop", group="Competition")
-public class RobotTeleop extends CommandOpMode {
+@Autonomous(name="BasicAuto", group="Autonomous")
+public class BasicAuto extends LinearOpMode {
 
     static final String DRIVE_MODE = "RC";
     static final Boolean INTAKE_ENABLED = true;
@@ -36,8 +27,10 @@ public class RobotTeleop extends CommandOpMode {
     static final Boolean CAROUSEL_ENABLED = true;
     static final Boolean SENSORS_ENABLED = true;
 
+    DrivetrainMecanum m_drivetrain;
+
     @Override
-    public void initialize() {
+    public void runOpMode() throws InterruptedException {
 
         telemetry.setAutoClear(true);
 
@@ -53,28 +46,15 @@ public class RobotTeleop extends CommandOpMode {
         RevIMU m_gyro = new RevIMU(hardwareMap, "imu");
         m_gyro.reset();
 
-        //Gamepad
-        GamepadEx m_driverGamepad = new GamepadEx(gamepad1);
-        GamepadEx m_operatorGamepad = new GamepadEx(gamepad2);
-
-
 
         // Drivetrain Subsystem
-        DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
+        m_drivetrain = new DrivetrainMecanum(motorBackLeft, motorBackRight,
                                                                  motorFrontLeft, motorFrontRight,
                                                                  telemetry, m_gyro, DRIVE_MODE);
 
 
-        /* Default Drive Command
-           Set the default command for the drivetrain to be gamepad controlled
-        */
-
-        register(m_defaultdrive);
-        m_defaultdrive.setDefaultCommand(new DefaultDrive(m_defaultdrive, m_driverGamepad, telemetry));
-
         if (SENSORS_ENABLED) {
             Vision m_vision = new Vision(hardwareMap, telemetry);
-            register(m_vision);
 
             ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
             RevTouchSensor touchSensor = hardwareMap.get(RevTouchSensor.class, "touchSensor");
@@ -97,12 +77,6 @@ public class RobotTeleop extends CommandOpMode {
 
             Intake m_intake = new Intake(servoIntake, telemetry);
 
-            GamepadButton driver_a = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.A);
-            GamepadButton driver_y = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.Y);
-
-            driver_a.whileHeld(new IntakeIn(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake());
-            driver_y.whileHeld(new IntakeOut(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake());
-
         }
 
         if (ARM_ENABLED) {
@@ -124,11 +98,6 @@ public class RobotTeleop extends CommandOpMode {
 
             Arm m_arm = new Arm(motorArm, telemetry);
 
-            GamepadButton oper_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
-            GamepadButton oper_dpad_right = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
-
-            oper_dpad_left.whileHeld(new ArmDriveBackward(m_arm, telemetry)).whenReleased(() -> m_arm.stopAll());
-            oper_dpad_right.whileHeld(new ArmDriveForward(m_arm, telemetry)).whenReleased(() -> m_arm.stopAll());
         }
 
         if (CAROUSEL_ENABLED) {
@@ -144,15 +113,39 @@ public class RobotTeleop extends CommandOpMode {
             MotorEx motorCarousel = new MotorEx(hardwareMap, "motorCarousel");
 
             Carousel m_carousel = new Carousel(motorCarousel, telemetry);
-
-            GamepadButton oper_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
-            GamepadButton oper_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
-
-            oper_dpad_up.whileHeld(new CarouselDriveBackward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll());
-            oper_dpad_down.whileHeld(new CarouselDriveForward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll());
-        }
+    }
 
         telemetry.addLine("Robot Initialized");
 
+        waitForStart();
+        driveWithVector(new Vector2d(12, 3));
+        sleep(1000);
+        driveWithVector(new Vector2d(0, 0));
+
+    }
+
+    private void driveWithVector(Vector2d vector) {
+        double[] speeds = normalize(new double[]{vector.getX(), vector.getY()});
+        m_drivetrain.drive(speeds[0], speeds[1], 0);
+    }
+
+    /**
+     * Normalize the wheel speeds if any value is greater than 1
+     */
+    private double[] normalize(double[] wheelSpeeds) {
+        double maxMagnitude = Math.abs(wheelSpeeds[0]);
+        for (int i = 1; i < wheelSpeeds.length; i++) {
+            double temp = Math.abs(wheelSpeeds[i]);
+            if (maxMagnitude < temp) {
+                maxMagnitude = temp;
+            }
+        }
+        if (maxMagnitude > 1.0) {
+            for (int i = 0; i < wheelSpeeds.length; i++) {
+                wheelSpeeds[i] = wheelSpeeds[i] / maxMagnitude;
+            }
+        }
+
+        return wheelSpeeds;
     }
 }
