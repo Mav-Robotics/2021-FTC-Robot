@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Carousel extends SubsystemBase {
     Telemetry m_telemetry;
     MotorEx m_carouselMotor;
-    Double m_multiplier = 1.0;
+    Double m_multiplier = 0.23;
 
     public Carousel(MotorEx carouselMotor, Telemetry telemetry) {
 

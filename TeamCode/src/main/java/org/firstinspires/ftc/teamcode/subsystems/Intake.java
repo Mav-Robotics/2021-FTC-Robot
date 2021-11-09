@@ -12,12 +12,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Intake extends SubsystemBase {
     Telemetry m_telemetry;
-    CRServo m_intake;
+    MotorEx m_intake;
     Double m_multiplier;
 
 
 
-    public Intake(CRServo intake, Telemetry telemetry) {
+    public Intake(MotorEx intake, Telemetry telemetry) {
 
         m_telemetry = telemetry;
         m_intake = intake;

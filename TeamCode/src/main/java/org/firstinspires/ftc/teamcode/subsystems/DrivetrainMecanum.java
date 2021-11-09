@@ -17,7 +17,7 @@ public class DrivetrainMecanum extends SubsystemBase {
     MotorEx m_motorFrontLeft, m_motorFrontRight, m_motorBackLeft, m_motorBackRight;
 
     static final Double STRAFE_MULT = 1.0;
-    static final Double FORWARD_MULT = 1.0;
+    static final Double FORWARD_MULT = 0.5;
     static final Double TURN_MULT = 0.5;
     static final Double WHEEL_DIAMETER = 6.0;
 

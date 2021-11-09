@@ -34,7 +34,7 @@ public class RobotTeleop extends CommandOpMode {
     static final Boolean INTAKE_ENABLED = true;
     static final Boolean ARM_ENABLED = true;
     static final Boolean CAROUSEL_ENABLED = true;
-    static final Boolean SENSORS_ENABLED = true;
+    static final Boolean SENSORS_ENABLED = false;
 
     @Override
     public void initialize() {
@@ -93,9 +93,9 @@ public class RobotTeleop extends CommandOpMode {
             Holding the A button runs them "inward" using the IntakeIn command
             Letting go of the button stops the servos
              */
-            CRServo servoIntake = new CRServo(hardwareMap, "servoIntake");
+            MotorEx motorIntake = new MotorEx(hardwareMap, "motorIntake");
 
-            Intake m_intake = new Intake(servoIntake, telemetry);
+            Intake m_intake = new Intake(motorIntake, telemetry);
 
             GamepadButton driver_a = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.A);
             GamepadButton driver_y = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.Y);
