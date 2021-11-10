@@ -13,7 +13,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Intake extends SubsystemBase {
     Telemetry m_telemetry;
     MotorEx m_intake;
-    Double m_multiplier;
 
 
 
