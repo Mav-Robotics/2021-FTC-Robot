@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase {
 
         m_telemetry = telemetry;
         m_intake = intake;
-        m_multiplier = 1.0;
+        m_multiplier = 0.5;
 
         m_telemetry.addLine("Intake Initialized");
 
