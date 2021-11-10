@@ -21,7 +21,6 @@ public class Intake extends SubsystemBase {
 
         m_telemetry = telemetry;
         m_intake = intake;
-        m_multiplier = 0.5;
 
         m_telemetry.addLine("Intake Initialized");
 
@@ -35,7 +34,7 @@ public class Intake extends SubsystemBase {
 
     public void runIntake(Double speed) {
 
-        m_intake.set(speed * m_multiplier);
+        m_intake.set(speed);
         m_telemetry.addData("Intake speeds", "Intake: %.2f",
                 m_intake.get());
     }
