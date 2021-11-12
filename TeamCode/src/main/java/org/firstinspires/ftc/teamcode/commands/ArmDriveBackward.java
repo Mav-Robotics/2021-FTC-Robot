@@ -22,7 +22,7 @@ public class ArmDriveBackward extends CommandBase {
 
     @Override
     public void execute() {
-        m_arm.drive(-0.5);
+        m_arm.drive(-1.0);
     }
 
     @Override
