@@ -1,22 +1,18 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.controller.PIDController;
-import com.arcrobotics.ftclib.controller.wpilibcontroller.ArmFeedforward;
-import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Intake extends SubsystemBase {
     Telemetry m_telemetry;
-    MotorEx m_intake;
+    CRServo m_intake;
 
 
 
-    public Intake(MotorEx intake, Telemetry telemetry) {
+    public Intake(CRServo intake, Telemetry telemetry) {
 
         m_telemetry = telemetry;
         m_intake = intake;

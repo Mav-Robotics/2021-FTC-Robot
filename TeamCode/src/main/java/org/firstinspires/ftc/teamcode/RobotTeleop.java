@@ -93,9 +93,9 @@ public class RobotTeleop extends CommandOpMode {
             Holding the A button runs them "inward" using the IntakeIn command
             Letting go of the button stops the servos
              */
-            MotorEx motorIntake = new MotorEx(hardwareMap, "motorIntake");
+            CRServo servoIntake = new CRServo(hardwareMap, "servoIntake");
 
-            Intake m_intake = new Intake(motorIntake, telemetry);
+            Intake m_intake = new Intake(servoIntake, telemetry);
 
             GamepadButton driver_a = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.A);
             GamepadButton driver_y = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.Y);

@@ -23,7 +23,7 @@ public class IntakeOut extends CommandBase {
 
     @Override
     public void execute() {
-        m_intake.runIntake(-0.05);
+        m_intake.runIntake(-1.0);
     }
 
     @Override

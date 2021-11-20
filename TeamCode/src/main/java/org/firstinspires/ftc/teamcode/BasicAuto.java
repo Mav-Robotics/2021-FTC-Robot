@@ -73,9 +73,9 @@ public class BasicAuto extends LinearOpMode {
             Holding the A button runs them "inward" using the IntakeIn command
             Letting go of the button stops the servos
              */
-            MotorEx motorIntake = new MotorEx(hardwareMap, "motorIntake");
+            CRServo servoIntake = new CRServo(hardwareMap, "servoIntake");
 
-            Intake m_intake = new Intake(motorIntake, telemetry);
+            Intake m_intake = new Intake(servoIntake, telemetry);
 
         }
 

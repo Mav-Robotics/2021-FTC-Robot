@@ -38,6 +38,7 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
+        m_telemetry.addData("Arm Motor Clicks", m_armMotor.getCurrentPosition());
 
     }
 
