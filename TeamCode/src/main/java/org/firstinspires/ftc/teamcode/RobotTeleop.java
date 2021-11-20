@@ -12,8 +12,10 @@ import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import org.firstinspires.ftc.teamcode.commands.ArmDefaultDrive;
 import org.firstinspires.ftc.teamcode.commands.ArmDriveBackward;
 import org.firstinspires.ftc.teamcode.commands.ArmDriveForward;
+import org.firstinspires.ftc.teamcode.commands.ArmToPosition;
 import org.firstinspires.ftc.teamcode.commands.CarouselDriveBackward;
 import org.firstinspires.ftc.teamcode.commands.CarouselDriveForward;
 import org.firstinspires.ftc.teamcode.commands.DefaultDrive;
@@ -35,11 +37,14 @@ public class RobotTeleop extends CommandOpMode {
     static final Boolean ARM_ENABLED = true;
     static final Boolean CAROUSEL_ENABLED = true;
     static final Boolean SENSORS_ENABLED = false;
+    static final Double LOW_TARGET = 100.0;
+    static final Double MID_TARGET = 750.0;
+    static final Double HI_TARGET = 1500.0;
 
     @Override
     public void initialize() {
 
-        telemetry.setAutoClear(true);
+//        telemetry.setAutoClear(true);
 
         // Drive Motors
         MotorEx motorBackLeft = new MotorEx(hardwareMap, "motorBackLeft", Motor.GoBILDA.RPM_312);
@@ -97,11 +102,13 @@ public class RobotTeleop extends CommandOpMode {
 
             Intake m_intake = new Intake(servoIntake, telemetry);
 
-            GamepadButton driver_a = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.A);
-            GamepadButton driver_y = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.Y);
+            GamepadButton oper_a = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.A);
+            GamepadButton oper_y = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.Y);
 
-            driver_a.whileHeld(new IntakeIn(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake());
-            driver_y.whileHeld(new IntakeOut(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake());
+            oper_a.whileHeld(new IntakeIn(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake());
+            oper_y.whileHeld(new IntakeOut(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake());
+
+
 
         }
 
@@ -124,11 +131,18 @@ public class RobotTeleop extends CommandOpMode {
 
             Arm m_arm = new Arm(motorArm, telemetry);
 
-            GamepadButton oper_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
-            GamepadButton oper_dpad_right = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
+            register(m_arm);
+            m_arm.setDefaultCommand(new ArmDefaultDrive(m_arm, m_operatorGamepad, telemetry));
 
-            oper_dpad_left.whileHeld(new ArmDriveBackward(m_arm, telemetry)).whenReleased(() -> m_arm.stopAll());
-            oper_dpad_right.whileHeld(new ArmDriveForward(m_arm, telemetry)).whenReleased(() -> m_arm.stopAll());
+            GamepadButton oper_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
+            GamepadButton oper_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
+            GamepadButton oper_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
+
+
+            oper_dpad_up.whileHeld(new ArmToPosition(m_arm, HI_TARGET, telemetry)).whenReleased(() -> m_arm.stopAll());
+            oper_dpad_left.whileHeld(new ArmToPosition(m_arm, MID_TARGET, telemetry)).whenReleased(() -> m_arm.stopAll());
+            oper_dpad_down.whileHeld(new ArmToPosition(m_arm, LOW_TARGET, telemetry)).whenReleased(() -> m_arm.stopAll());
+
         }
 
         if (CAROUSEL_ENABLED) {
@@ -145,14 +159,15 @@ public class RobotTeleop extends CommandOpMode {
 
             Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-            GamepadButton oper_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
-            GamepadButton oper_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
+            GamepadButton oper_X = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.X);
+            GamepadButton oper_B = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.B);
 
-            oper_dpad_up.whileHeld(new CarouselDriveBackward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll());
-            oper_dpad_down.whileHeld(new CarouselDriveForward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll());
+            oper_X.whileHeld(new CarouselDriveBackward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll());
+            oper_B.whileHeld(new CarouselDriveForward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll());
         }
 
         telemetry.addLine("Robot Initialized");
+        telemetry.update();
 
     }
 }

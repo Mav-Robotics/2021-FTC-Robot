@@ -63,6 +63,9 @@ public class DrivetrainMecanum extends SubsystemBase {
                             m_motorBackLeft.get(), m_motorBackRight.get(), m_motorFrontLeft.get(), m_motorFrontRight.get());
         m_telemetry.addData("Encoder Values","backLeft: %d, backRight: %d, frontLeft: %d, frontRight: %d",
                             m_motorBackLeft.getCurrentPosition(), m_motorBackRight.getCurrentPosition(), m_motorFrontLeft.getCurrentPosition(), m_motorFrontRight.getCurrentPosition());
+
+
+        m_telemetry.update();
     }
 
 

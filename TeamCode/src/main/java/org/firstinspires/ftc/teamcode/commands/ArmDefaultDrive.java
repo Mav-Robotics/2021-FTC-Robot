@@ -5,18 +5,16 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
-import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
 
-public class ArmToPosition extends CommandBase {
+public class ArmDefaultDrive extends CommandBase {
     private Arm m_arm;
-    private Double m_setpoint;
     private Telemetry m_telemetry;
+    private GamepadEx m_gamepad;
 
-
-    public ArmToPosition(Arm arm, Double setpoint, Telemetry telemetry) {
+    public ArmDefaultDrive(Arm arm, GamepadEx gamepad, Telemetry telemetry) {
         m_arm = arm;
-        m_setpoint = setpoint;
         m_telemetry = telemetry;
+        m_gamepad = gamepad;
         addRequirements(arm);
     }
 
@@ -27,10 +25,18 @@ public class ArmToPosition extends CommandBase {
 
     @Override
     public void execute() {
-        m_arm.driveToSetPoint(m_setpoint);
+        double stick_val = m_gamepad.getLeftY();
+        if (stick_val >= 0.25) {
+            m_arm.drive(1.0);
+        } else if (stick_val <= -0.25) {
+            m_arm.drive(-1.0);
+        } else {
+            m_arm.drive(0.0);
+        }
+
 
     }
 
     @Override
-    public boolean isFinished() { return true; }
+    public boolean isFinished() { return false; }
 }
