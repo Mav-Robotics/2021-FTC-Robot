@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PController;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.controller.wpilibcontroller.ArmFeedforward;
@@ -13,25 +14,21 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Arm extends SubsystemBase {
     Telemetry m_telemetry;
-    Double kS, kCos, kV, kA;
-    PIDController m_pid;
     MotorEx m_armMotor;
 
+    private final static Integer ARM_HIGH = 1850;
+    private final static Integer ARM_LOW = 0;
 
     public Arm(MotorEx armMotor, Telemetry telemetry) {
 
         m_armMotor = armMotor;
         m_telemetry = telemetry;
-        kS = 0.0;
-        kCos = 0.0;
-        kV = 0.0;
-        kA = 0.0;
 
-        ArmFeedforward feedforward = new ArmFeedforward(kS, kCos, kV, kA);
-        telemetry.addData("Arm Values", "kS: %f, kCos: %f, kV: %f, kA: %f", kS, kCos, kV, kA);
-
+        m_armMotor.setRunMode(Motor.RunMode.PositionControl);
+        m_armMotor.setPositionTolerance(15.0);
 
         m_telemetry.addLine("Arm Initialized");
+
 
     }
 
@@ -39,23 +36,43 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         m_telemetry.addData("Arm Motor Clicks", m_armMotor.getCurrentPosition());
-
+        m_telemetry.addData("Arm Output", m_armMotor.get());
     }
 
-    public void driveToSetPoint(Double setpoint) {
-        m_pid.setSetPoint(setpoint);
-        m_telemetry.addData("Arm Setpoint", m_pid.getSetPoint());
-        m_telemetry.addData("Arm Position", m_armMotor.getCurrentPosition());
+
+
+    public void driveToSetPoint(Integer setpoint) {
+        if (setpoint >= ARM_LOW && setpoint <= ARM_HIGH) {
+            m_armMotor.setTargetPosition(setpoint);
+            while (!m_armMotor.atTargetPosition()) {
+                m_armMotor.set(0.5);
+            }
+        } else {
+            m_telemetry.addData("ERROR", "Setpoint is beyond min/max");
+        }
+        stopAll();
     }
 
     public void drive(Double speed) {
-        if (speed > 0.0 && m_armMotor.getCurrentPosition() <= 1900) {
+        if (speed > 0.0 && !armAtTop()) {
             m_armMotor.set(speed);
-        } else if (speed < 0.0 && m_armMotor.getCurrentPosition() >= 10) {
+        } else if (speed < 0.0 && !armAtBottom()) {
             m_armMotor.set(speed);
         } else {
             m_armMotor.set(0.0);
         }
+    }
+
+    public boolean atSetPoint() {
+        return m_armMotor.atTargetPosition();
+    }
+
+    public boolean armAtTop() {
+        return m_armMotor.getCurrentPosition() >= ARM_HIGH;
+    }
+
+    public boolean armAtBottom() {
+        return m_armMotor.getCurrentPosition() <= ARM_LOW;
     }
 
     public void stopAll() { m_armMotor.set(0); }

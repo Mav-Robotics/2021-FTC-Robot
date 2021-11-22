@@ -37,9 +37,10 @@ public class RobotTeleop extends CommandOpMode {
     static final Boolean ARM_ENABLED = true;
     static final Boolean CAROUSEL_ENABLED = true;
     static final Boolean SENSORS_ENABLED = false;
-    static final Double LOW_TARGET = 100.0;
-    static final Double MID_TARGET = 750.0;
-    static final Double HI_TARGET = 1500.0;
+    static final Integer PICKUP = 0;
+    static final Integer LOW_TARGET = 585;
+    static final Integer MID_TARGET = 1100;
+    static final Integer HI_TARGET = 1800;
 
     @Override
     public void initialize() {
@@ -131,17 +132,19 @@ public class RobotTeleop extends CommandOpMode {
 
             Arm m_arm = new Arm(motorArm, telemetry);
 
-            register(m_arm);
-            m_arm.setDefaultCommand(new ArmDefaultDrive(m_arm, m_operatorGamepad, telemetry));
+//            register(m_arm);
+//            m_arm.setDefaultCommand(new ArmDefaultDrive(m_arm, m_operatorGamepad, telemetry));
 
             GamepadButton oper_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
             GamepadButton oper_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
+            GamepadButton oper_dpad_right = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
             GamepadButton oper_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
 
 
-            oper_dpad_up.whileHeld(new ArmToPosition(m_arm, HI_TARGET, telemetry)).whenReleased(() -> m_arm.stopAll());
-            oper_dpad_left.whileHeld(new ArmToPosition(m_arm, MID_TARGET, telemetry)).whenReleased(() -> m_arm.stopAll());
-            oper_dpad_down.whileHeld(new ArmToPosition(m_arm, LOW_TARGET, telemetry)).whenReleased(() -> m_arm.stopAll());
+            oper_dpad_up.whenPressed(new ArmToPosition(m_arm, HI_TARGET, telemetry));
+            oper_dpad_right.whenPressed(new ArmToPosition(m_arm, MID_TARGET, telemetry));
+            oper_dpad_left.whenPressed(new ArmToPosition(m_arm, LOW_TARGET, telemetry));
+            oper_dpad_down.whenPressed(new ArmToPosition(m_arm, PICKUP, telemetry));
 
         }
 
