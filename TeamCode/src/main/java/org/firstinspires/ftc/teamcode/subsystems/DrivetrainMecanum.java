@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Utils;
 
 public class DrivetrainMecanum extends SubsystemBase {
     RevIMU m_gyro;
@@ -51,10 +52,16 @@ public class DrivetrainMecanum extends SubsystemBase {
 
     @Override
     public void periodic() {
+
         m_telemetry.addData("Avg. Distance", getAverageDistance());
         m_telemetry.addData("Avg. Encoder Value", getAverageEncoderValue());
+        m_telemetry.addData("Close Enough", Utils.isCloseEnough(getCurrentHeading(), 150.0, 0.25));
 
         m_telemetry.addData("Heading", m_gyro.getHeading());
+        m_telemetry.addData("Absolute Heading", m_gyro.getAbsoluteHeading());
+        m_telemetry.addData("Rotation", m_gyro.getRotation2d());
+
+
         m_telemetry.addData("Motor Speeds","backLeft: %.2f, backRight: %.2f, frontLeft: %.2f, frontRight: %.2f",
                             m_motorBackLeft.get(), m_motorBackRight.get(), m_motorFrontLeft.get(), m_motorFrontRight.get());
         m_telemetry.addData("Encoder Values","backLeft: %d, backRight: %d, frontLeft: %d, frontRight: %d",
@@ -87,6 +94,10 @@ public class DrivetrainMecanum extends SubsystemBase {
                     forwardSpeed,
                     turnSpeed, m_gyro.getHeading());
         }
+    }
+
+    public Double getCurrentHeading() {
+        return m_gyro.getHeading();
     }
 
     public Double getAverageEncoderValue() {

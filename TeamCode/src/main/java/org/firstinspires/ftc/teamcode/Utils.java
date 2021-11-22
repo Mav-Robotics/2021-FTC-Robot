@@ -27,4 +27,11 @@ public class Utils {
             }
         }
     }
+    public static boolean isCloseEnough(Double actual, Double target, Double delta) {
+        Double allowedDiff = Math.abs(target * delta);
+        Double error = Math.abs(target - actual);
+
+        return (error <= allowedDiff);
+    }
 }
+
