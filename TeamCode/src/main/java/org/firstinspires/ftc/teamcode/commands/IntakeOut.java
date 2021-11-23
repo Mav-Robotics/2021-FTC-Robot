@@ -26,9 +26,14 @@ public class IntakeOut extends CommandBase {
         m_intake.runIntake(1.0);
     }
 
+//    @Override
+//    public void end(boolean interrupted) {
+//        m_intake.stopIntake();
+//    }
+
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 
 }

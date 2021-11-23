@@ -25,7 +25,7 @@ public class Arm extends SubsystemBase {
         m_telemetry = telemetry;
 
         m_armMotor.setRunMode(Motor.RunMode.PositionControl);
-        m_armMotor.setPositionTolerance(15.0);
+        m_armMotor.setPositionTolerance(5.0);
 
         m_telemetry.addLine("Arm Initialized");
 
@@ -63,9 +63,12 @@ public class Arm extends SubsystemBase {
         }
     }
 
-    public boolean atSetPoint() {
-        return m_armMotor.atTargetPosition();
+    public boolean atSetPoint() { return m_armMotor.atTargetPosition(); }
+
+    public Integer armPosition() {
+        return m_armMotor.getCurrentPosition();
     }
+
 
     public boolean armAtTop() {
         return m_armMotor.getCurrentPosition() >= ARM_HIGH;

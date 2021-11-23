@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PController;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
@@ -42,7 +43,6 @@ public class DrivetrainMecanum extends SubsystemBase {
         m_motorBackRight.setDistancePerPulse(MM_PER_PULSE);
 
         m_drivetrain = new MecanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-
         resetEncoders();
 
         m_telemetry.addLine("Drivetrain Initialized");
@@ -55,18 +55,16 @@ public class DrivetrainMecanum extends SubsystemBase {
 
         m_telemetry.addData("Avg. Distance", getAverageDistance());
         m_telemetry.addData("Avg. Encoder Value", getAverageEncoderValue());
-        m_telemetry.addData("Close Enough", Utils.isCloseEnough(getCurrentHeading(), 150.0, 0.25));
-
-        m_telemetry.addData("Heading", m_gyro.getHeading());
+        m_telemetry.addData("Heading", getCurrentHeading());
         m_telemetry.addData("Absolute Heading", m_gyro.getAbsoluteHeading());
         m_telemetry.addData("Rotation", m_gyro.getRotation2d());
+        m_telemetry.addData("Modulus error", Utils.getModulusError(0, getCurrentHeading(),-180.0, 180.0));
 
 
         m_telemetry.addData("Motor Speeds","backLeft: %.2f, backRight: %.2f, frontLeft: %.2f, frontRight: %.2f",
                             m_motorBackLeft.get(), m_motorBackRight.get(), m_motorFrontLeft.get(), m_motorFrontRight.get());
-        m_telemetry.addData("Encoder Values","backLeft: %d, backRight: %d, frontLeft: %d, frontRight: %d",
-                            m_motorBackLeft.getCurrentPosition(), m_motorBackRight.getCurrentPosition(), m_motorFrontLeft.getCurrentPosition(), m_motorFrontRight.getCurrentPosition());
-
+        m_telemetry.addData("Encoder Values","backLeft: %f, backRight: %f, frontLeft: %f, frontRight: %f",
+                            m_motorBackLeft.getDistance(), m_motorBackRight.getDistance(), m_motorFrontLeft.getDistance(), m_motorFrontRight.getDistance());
 
         m_telemetry.update();
     }
@@ -97,21 +95,39 @@ public class DrivetrainMecanum extends SubsystemBase {
     }
 
     public Double getCurrentHeading() {
-        return m_gyro.getHeading();
+        return m_gyro.getAbsoluteHeading();
     }
 
+    public void resetHeading() {
+        m_gyro.reset();
+    }
+
+
     public Double getAverageEncoderValue() {
-        return (m_motorBackRight.getCurrentPosition() +
-                m_motorFrontRight.getCurrentPosition() +
+        Integer multiplier;
+        if (m_motorBackLeft.getCurrentPosition() < 0.0 && m_motorFrontLeft.getCurrentPosition() < 0.0) {
+            multiplier = 1;
+        } else {
+            multiplier = -1;
+        }
+        return (Math.abs(m_motorBackRight.getCurrentPosition()) +
+                Math.abs(m_motorFrontRight.getCurrentPosition()) +
                 Math.abs(m_motorBackLeft.getCurrentPosition()) +
-                Math.abs(m_motorFrontLeft.getCurrentPosition())) / 4.0;
+                Math.abs(m_motorFrontLeft.getCurrentPosition())) / 4.0 * multiplier;
     }
 
     public Double getAverageDistance() {
-        return (m_motorBackRight.getDistance() +
-                m_motorFrontRight.getDistance() +
+        Integer multiplier;
+        if (m_motorBackLeft.getDistance() < 0.0 && m_motorFrontLeft.getDistance() < 0.0) {
+            multiplier = 1;
+        } else {
+            multiplier = -1;
+        }
+
+        return (Math.abs(m_motorBackRight.getDistance()) +
+                Math.abs(m_motorFrontRight.getDistance()) +
                 Math.abs(m_motorBackLeft.getDistance()) +
-                Math.abs(m_motorFrontLeft.getDistance())) / 4.0 / 25.4;
+                Math.abs(m_motorFrontLeft.getDistance())) / 4.0 / 25.4 * multiplier;
     }
 
     public void resetEncoders() {
@@ -119,6 +135,13 @@ public class DrivetrainMecanum extends SubsystemBase {
         m_motorBackLeft.resetEncoder();
         m_motorBackRight.resetEncoder();
         m_motorFrontRight.resetEncoder();
+    }
+
+    public void stopAll(){
+        m_motorFrontLeft.stopMotor();
+        m_motorBackLeft.stopMotor();
+        m_motorBackRight.stopMotor();
+        m_motorFrontRight.stopMotor();
     }
 
 }
