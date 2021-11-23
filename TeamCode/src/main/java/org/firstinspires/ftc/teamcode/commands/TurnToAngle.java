@@ -42,9 +42,9 @@ public class TurnToAngle extends CommandBase {
     @Override
     public boolean isFinished() {
         if (m_angle >= 0.0) {
-            return (Math.abs(m_angle - m_drivetrain.getCurrentHeading()) <= 1.5);
+            return m_drivetrain.getCurrentHeading() >= m_angle;
         } else {
-            return (Math.abs(m_angle - m_drivetrain.getCurrentHeading()) >= 1.5);
+            return m_drivetrain.getCurrentHeading() <= m_angle;
         }
     }
 }
