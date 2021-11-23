@@ -20,14 +20,15 @@ public class LowScoreAndPark extends SequentialCommandGroup {
     public LowScoreAndPark(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry) {
         addCommands(
                 new ArmToPosition(arm, LOW_TARGET, telemetry),
-                new TurnToAngle(drivetrain, 27.0, 0.35),
-                new DriveDistance(drivetrain, 0.5, 28.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new TurnToAngle(drivetrain, 27.0, 0.5),
+                new DriveDistance(drivetrain, 0.6, 28.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new IntakeOut(intake, telemetry).withTimeout(2000).whenFinished(() -> intake.stopIntake()),
-                new DriveDistance(drivetrain, 0.5, -10.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new DriveDistance(drivetrain, 0.6, -10.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new ArmToPosition(arm, PICKUP, telemetry).whenFinished(() -> arm.stopAll()),
-                new TurnToAngle(drivetrain, 0.0, 0.35),
-                new TurnToAngle(drivetrain, -90.0, 0.35)
-        );
+                new TurnToAngle(drivetrain, -90.0, 0.5),
+                new DriveDistance(drivetrain, 0.6, -31.0, telemetry).whenFinished(() -> drivetrain.stopAll())
+
+                );
 
         addRequirements(arm, drivetrain, intake);
     }
