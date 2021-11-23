@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.commands.CarouselDriveForward;
 import org.firstinspires.ftc.teamcode.commands.DefaultDrive;
 import org.firstinspires.ftc.teamcode.commands.IntakeIn;
 import org.firstinspires.ftc.teamcode.commands.IntakeOut;
+import org.firstinspires.ftc.teamcode.commands.StrafeDistance;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
@@ -177,7 +178,11 @@ public class RobotTeleop extends CommandOpMode {
         driver_b.whenPressed(new MidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
         driver_y.whenPressed(new HighScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
 
+        GamepadButton driver_dpad_left = m_driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
+        GamepadButton driver_dpad_right = m_driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
 
+        driver_dpad_left.whenPressed(new StrafeDistance(m_defaultdrive, 0.5, 10.0, "LEFT", telemetry));
+        driver_dpad_right.whenPressed(new StrafeDistance(m_defaultdrive, 0.5, 10.0, "RIGHT", telemetry));
 
         telemetry.addLine("Robot Initialized");
         telemetry.update();
