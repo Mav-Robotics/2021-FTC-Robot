@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autos.scoreFromStart;
+package org.firstinspires.ftc.teamcode.autos.scoreAndPark;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -10,21 +10,23 @@ import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
-public class MidScore extends SequentialCommandGroup {
+public class HighScoreAndPark extends SequentialCommandGroup {
     static final Integer PICKUP = 0;
     static final Integer LOW_TARGET = 585;
     static final Integer MID_TARGET = 1220;
     static final Integer HI_TARGET = 1800;
 
-    public MidScore(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry) {
+    public HighScoreAndPark(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry) {
         addCommands(
-                new ArmToPosition(arm, MID_TARGET, telemetry),
+                new ArmToPosition(arm, HI_TARGET, telemetry),
                 new TurnToAngle(drivetrain, 27.0, 0.5),
-                new DriveDistance(drivetrain, 0.6, 29.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new DriveDistance(drivetrain, 0.6, 33.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new IntakeOut(intake, telemetry).withTimeout(2000).whenFinished(() -> intake.stopIntake()),
-                new DriveDistance(drivetrain, 0.6, -29.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new DriveDistance(drivetrain, 0.6, -15.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new ArmToPosition(arm, PICKUP, telemetry).whenFinished(() -> arm.stopAll()),
-                new TurnToAngle(drivetrain, 0.0, 0.5)
+                new TurnToAngle(drivetrain, -90.0, 0.5),
+                new DriveDistance(drivetrain, 0.6, -31.0, telemetry).whenFinished(() -> drivetrain.stopAll())
+
                 );
 
         addRequirements(arm, drivetrain, intake);

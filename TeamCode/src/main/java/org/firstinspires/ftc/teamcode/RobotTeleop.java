@@ -12,7 +12,9 @@ import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import org.firstinspires.ftc.teamcode.autos.scoreAndPark.HighScoreAndPark;
 import org.firstinspires.ftc.teamcode.autos.scoreAndPark.LowScoreAndPark;
+import org.firstinspires.ftc.teamcode.autos.scoreAndPark.MidScoreAndPark;
 import org.firstinspires.ftc.teamcode.autos.scoreFromStart.HighScore;
 import org.firstinspires.ftc.teamcode.autos.scoreFromStart.LowScore;
 import org.firstinspires.ftc.teamcode.autos.scoreFromStart.MidScore;
@@ -172,8 +174,8 @@ public class RobotTeleop extends CommandOpMode {
 
 
         driver_x.whenPressed(new LowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
-        driver_b.whenPressed(new MidScore(m_defaultdrive, m_arm, m_intake, telemetry));
-        driver_y.whenPressed(new HighScore(m_defaultdrive, m_arm, m_intake, telemetry));
+        driver_b.whenPressed(new MidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+        driver_y.whenPressed(new HighScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
 
 
 

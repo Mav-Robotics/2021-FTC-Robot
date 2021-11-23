@@ -19,12 +19,12 @@ public class HighScore extends SequentialCommandGroup {
     public HighScore(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry) {
         addCommands(
                 new ArmToPosition(arm, HI_TARGET, telemetry),
-                new TurnToAngle(drivetrain, 27.0, 0.35),
-                new DriveDistance(drivetrain, 0.5, 33.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new TurnToAngle(drivetrain, 27.0, 0.5),
+                new DriveDistance(drivetrain, 0.6, 33.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new IntakeOut(intake, telemetry).withTimeout(2000).whenFinished(() -> intake.stopIntake()),
-                new DriveDistance(drivetrain, 0.5, -33.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new DriveDistance(drivetrain, 0.6, -33.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new ArmToPosition(arm, PICKUP, telemetry).whenFinished(() -> arm.stopAll()),
-                new TurnToAngle(drivetrain, 0.0, 0.35)
+                new TurnToAngle(drivetrain, 0.0, 0.5)
                 );
 
         addRequirements(arm, drivetrain, intake);
