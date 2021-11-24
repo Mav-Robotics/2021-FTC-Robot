@@ -28,9 +28,8 @@ public class ArmToPosition extends CommandBase {
     @Override
     public void execute() {
         m_arm.driveToSetPoint(m_setpoint);
-
     }
 
     @Override
-    public boolean isFinished() { return true; }
+    public boolean isFinished() { return m_arm.atSetPoint(); }
 }

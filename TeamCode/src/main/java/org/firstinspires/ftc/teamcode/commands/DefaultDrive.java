@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.hardware.RevIMU;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
 
@@ -26,7 +24,7 @@ public class DefaultDrive extends CommandBase {
 
     @Override
     public void execute() {
-        m_drivetrain.drive(m_driver.getRightX(), -m_driver.getRightY(), -m_driver.getLeftX());
+        m_drivetrain.drive(-m_driver.getRightX(), m_driver.getRightY(), -m_driver.getLeftX());
     }
 
     @Override

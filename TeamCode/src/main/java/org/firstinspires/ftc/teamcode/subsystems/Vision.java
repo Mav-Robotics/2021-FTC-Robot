@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.RobotMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,6 @@ public class Vision extends SubsystemBase {
     VuforiaLocalizer m_vuforia;
     HardwareMap m_hardwareMap;
     TFObjectDetector m_tfod;
-
-    static final String VUFORIA_KEY = "ARKNcpL/////AAABmaul75WJu02hpEsBG/MnvsZ0aacsUMH0zc+d53A" +
-            "KGDU3mzdXJQzSDPuea0rokovM0/U3INJNoaNvGx+Xnk9tFdgMVitg+hE32fMsH4f5KLF9CqJyqRynTBo55jfOsN4UbPMO6ij" +
-            "MdpQg7PPUg8O7pd5HNOjoDx+MKgZ+FldA4uCCj5vEansKoP5++7V0a/E/0j4MClpdkUA/7cf9WSNS8opUnl9lAyNpOEiOa0b" +
-            "q2KbzC5234XlaqzE7it5yl9QhstUyAfy1rRyRYc7ClclkuK1kleXepW2FQED5MsC3S+4buqtAe2pnJA7QyHJ3PGUBQd3L5PF" +
-            "VVDeXRGHIF6ZKij3R6zKbWc6/NVSc2J7S5Uz2";
 
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
@@ -87,7 +82,7 @@ public class Vision extends SubsystemBase {
          */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.vuforiaLicenseKey = RobotMap.VUFORIA_KEY;
         parameters.cameraName = m_hardwareMap.get(WebcamName.class, "camera");
 
         //  Instantiate the Vuforia engine

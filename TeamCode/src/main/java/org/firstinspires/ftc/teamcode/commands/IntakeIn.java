@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.subsystems.Arm;
+import org.firstinspires.ftc.teamcode.RobotMap;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
 public class IntakeIn extends CommandBase {
@@ -24,7 +24,7 @@ public class IntakeIn extends CommandBase {
 
     @Override
     public void execute() {
-        m_intake.runIntake(1.0);
+        m_intake.runIntake(RobotMap.INTAKE_SPEED_IN);
     }
 
     @Override
