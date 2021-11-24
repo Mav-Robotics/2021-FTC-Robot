@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.RobotMap;
 import org.firstinspires.ftc.teamcode.Utils;
 
 public class DrivetrainMecanum extends SubsystemBase {
@@ -16,14 +17,6 @@ public class DrivetrainMecanum extends SubsystemBase {
     MecanumDrive m_drivetrain;
     String m_drivemode;
     MotorEx m_motorFrontLeft, m_motorFrontRight, m_motorBackLeft, m_motorBackRight;
-
-    static final Double STRAFE_MULT = 1.0;
-    static final Double FORWARD_MULT = 0.5;
-    static final Double TURN_MULT = 0.5;
-
-    static final Double MM_PER_PULSE = 0.55;
-
-
 
     public DrivetrainMecanum(MotorEx motorBackLeft, MotorEx motorBackRight,
                              MotorEx motorFrontLeft, MotorEx motorFrontRight,
@@ -37,10 +30,10 @@ public class DrivetrainMecanum extends SubsystemBase {
         m_motorBackLeft = motorBackLeft;
         m_motorBackRight = motorBackRight;
 
-        m_motorFrontLeft.setDistancePerPulse(MM_PER_PULSE);
-        m_motorFrontRight.setDistancePerPulse(MM_PER_PULSE);
-        m_motorBackLeft.setDistancePerPulse(MM_PER_PULSE);
-        m_motorBackRight.setDistancePerPulse(MM_PER_PULSE);
+        m_motorFrontLeft.setDistancePerPulse(RobotMap.MM_PER_PULSE);
+        m_motorFrontRight.setDistancePerPulse(RobotMap.MM_PER_PULSE);
+        m_motorBackLeft.setDistancePerPulse(RobotMap.MM_PER_PULSE);
+        m_motorBackRight.setDistancePerPulse(RobotMap.MM_PER_PULSE);
 
         m_drivetrain = new MecanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
         resetEncoders();
@@ -79,9 +72,9 @@ public class DrivetrainMecanum extends SubsystemBase {
         you point them. As if you were looking at the field from the top down
          */
 
-        strafeSpeed = strafeSpeed * STRAFE_MULT;
-        forwardSpeed = forwardSpeed * FORWARD_MULT;
-        turnSpeed = turnSpeed * TURN_MULT;
+        strafeSpeed = strafeSpeed * RobotMap.STRAFE_MULT;
+        forwardSpeed = forwardSpeed * RobotMap.FORWARD_MULT;
+        turnSpeed = turnSpeed * RobotMap.TURN_MULT;
 
         if (m_drivemode.equals("RC")) {
             m_drivetrain.driveRobotCentric(strafeSpeed,forwardSpeed,

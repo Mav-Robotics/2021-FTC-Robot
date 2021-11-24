@@ -15,9 +15,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import org.firstinspires.ftc.teamcode.autos.scoreAndPark.HighScoreAndPark;
 import org.firstinspires.ftc.teamcode.autos.scoreAndPark.LowScoreAndPark;
 import org.firstinspires.ftc.teamcode.autos.scoreAndPark.MidScoreAndPark;
-import org.firstinspires.ftc.teamcode.autos.scoreFromStart.HighScore;
-import org.firstinspires.ftc.teamcode.autos.scoreFromStart.LowScore;
-import org.firstinspires.ftc.teamcode.autos.scoreFromStart.MidScore;
+import org.firstinspires.ftc.teamcode.commands.ArmDefaultDrive;
 import org.firstinspires.ftc.teamcode.commands.ArmToPosition;
 import org.firstinspires.ftc.teamcode.commands.CarouselDriveBackward;
 import org.firstinspires.ftc.teamcode.commands.CarouselDriveForward;
@@ -31,20 +29,11 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
+import org.firstinspires.ftc.teamcode.RobotMap;
 
 
 @TeleOp(name="RobotTeleop", group="Competition")
 public class RobotTeleop extends CommandOpMode {
-
-    static final String DRIVE_MODE = "RC";
-    static final Boolean INTAKE_ENABLED = true;
-    static final Boolean ARM_ENABLED = true;
-    static final Boolean CAROUSEL_ENABLED = true;
-    static final Boolean SENSORS_ENABLED = false;
-    static final Integer PICKUP = 0;
-    static final Integer LOW_TARGET = 585;
-    static final Integer MID_TARGET = 1100;
-    static final Integer HI_TARGET = 1800;
 
     @Override
     public void initialize() {
@@ -73,7 +62,7 @@ public class RobotTeleop extends CommandOpMode {
         // Drivetrain Subsystem
         DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
                                                                  motorFrontLeft, motorFrontRight,
-                                                                 telemetry, m_gyro, DRIVE_MODE);
+                                                                 telemetry, m_gyro, RobotMap.DRIVE_MODE);
 
 
         /* Default Drive Command
@@ -89,7 +78,7 @@ public class RobotTeleop extends CommandOpMode {
         GamepadButton driver_b = m_driverGamepad.getGamepadButton(GamepadKeys.Button.B);
         GamepadButton driver_y = m_driverGamepad.getGamepadButton(GamepadKeys.Button.Y);
 
-        if (SENSORS_ENABLED) {
+        if (RobotMap.SENSORS_ENABLED) {
             Vision m_vision = new Vision(hardwareMap, telemetry);
             register(m_vision);
 
@@ -138,20 +127,23 @@ public class RobotTeleop extends CommandOpMode {
 
         Arm m_arm = new Arm(motorArm, telemetry);
 
-//            register(m_arm);
-//            m_arm.setDefaultCommand(new ArmDefaultDrive(m_arm, m_operatorGamepad, telemetry));
+        if (RobotMap.ARM_STICK_DRIVE) {
 
-        GamepadButton oper_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
-        GamepadButton oper_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
-        GamepadButton oper_dpad_right = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
-        GamepadButton oper_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
+            register(m_arm);
+            m_arm.setDefaultCommand(new ArmDefaultDrive(m_arm, m_operatorGamepad, telemetry));
+
+        } else {
+            GamepadButton oper_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
+            GamepadButton oper_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
+            GamepadButton oper_dpad_right = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
+            GamepadButton oper_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
 
 
-        oper_dpad_up.whenPressed(new ArmToPosition(m_arm, HI_TARGET, telemetry));
-        oper_dpad_right.whenPressed(new ArmToPosition(m_arm, MID_TARGET, telemetry));
-        oper_dpad_left.whenPressed(new ArmToPosition(m_arm, LOW_TARGET, telemetry));
-        oper_dpad_down.whenPressed(new ArmToPosition(m_arm, PICKUP, telemetry));
-
+            oper_dpad_up.whenPressed(new ArmToPosition(m_arm, RobotMap.HI_TARGET, telemetry));
+            oper_dpad_right.whenPressed(new ArmToPosition(m_arm, RobotMap.MID_TARGET, telemetry));
+            oper_dpad_left.whenPressed(new ArmToPosition(m_arm, RobotMap.LOW_TARGET, telemetry));
+            oper_dpad_down.whenPressed(new ArmToPosition(m_arm, RobotMap.PICKUP, telemetry));
+        }
 
         /* Carousel subsystem
 

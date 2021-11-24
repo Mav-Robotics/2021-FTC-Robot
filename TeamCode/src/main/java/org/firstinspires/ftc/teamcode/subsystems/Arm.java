@@ -11,13 +11,11 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.RobotMap;
 
 public class Arm extends SubsystemBase {
     Telemetry m_telemetry;
     MotorEx m_armMotor;
-
-    private final static Integer ARM_HIGH = 1850;
-    private final static Integer ARM_LOW = 0;
 
     public Arm(MotorEx armMotor, Telemetry telemetry) {
 
@@ -42,10 +40,10 @@ public class Arm extends SubsystemBase {
 
 
     public void driveToSetPoint(Integer setpoint) {
-        if (setpoint >= ARM_LOW && setpoint <= ARM_HIGH) {
+        if (setpoint >= RobotMap.ARM_LOW_LIMIT && setpoint <= RobotMap.ARM_HIGH_LIMIT) {
             m_armMotor.setTargetPosition(setpoint);
             while (!m_armMotor.atTargetPosition()) {
-                m_armMotor.set(0.5);
+                m_armMotor.set(RobotMap.ARM_MOTOR_SPEED);
             }
         } else {
             m_telemetry.addData("ERROR", "Setpoint is beyond min/max");
@@ -71,11 +69,11 @@ public class Arm extends SubsystemBase {
 
 
     public boolean armAtTop() {
-        return m_armMotor.getCurrentPosition() >= ARM_HIGH;
+        return m_armMotor.getCurrentPosition() >= RobotMap.ARM_HIGH_LIMIT;
     }
 
     public boolean armAtBottom() {
-        return m_armMotor.getCurrentPosition() <= ARM_LOW;
+        return m_armMotor.getCurrentPosition() <= RobotMap.ARM_LOW_LIMIT;
     }
 
     public void stopAll() { m_armMotor.set(0); }

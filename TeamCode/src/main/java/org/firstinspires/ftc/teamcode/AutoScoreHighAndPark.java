@@ -21,8 +21,6 @@ import org.firstinspires.ftc.teamcode.subsystems.Vision;
 @Autonomous(name="Score High and Park", group="Score and Park")
 public class AutoScoreHighAndPark extends CommandOpMode {
 
-    static final Boolean SENSORS_ENABLED = false;
-
     @Override
     public void initialize() {
 
@@ -47,7 +45,7 @@ public class AutoScoreHighAndPark extends CommandOpMode {
                                                                  telemetry, m_gyro, "RC");
 
 
-        if (SENSORS_ENABLED) {
+        if (RobotMap.SENSORS_ENABLED) {
             Vision m_vision = new Vision(hardwareMap, telemetry);
             register(m_vision);
 
