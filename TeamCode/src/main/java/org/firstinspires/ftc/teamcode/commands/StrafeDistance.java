@@ -31,9 +31,9 @@ public class StrafeDistance extends CommandBase {
     @Override
     public void execute() {
         if (m_direction.equals("left")) {
-            m_drivetrain.drive(-m_speed, 0, 0);
-        } else if (m_direction.equals("right")){
             m_drivetrain.drive(m_speed, 0, 0);
+        } else if (m_direction.equals("right")){
+            m_drivetrain.drive(-m_speed, 0, 0);
         }
 
     }

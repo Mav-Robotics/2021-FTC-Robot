@@ -26,8 +26,7 @@ public class Arm extends SubsystemBase {
         m_armMotor.setPositionTolerance(5.0);
 
         m_telemetry.addLine("Arm Initialized");
-
-
+        
     }
 
 

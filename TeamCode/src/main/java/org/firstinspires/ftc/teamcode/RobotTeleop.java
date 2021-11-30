@@ -121,15 +121,15 @@ public class RobotTeleop extends CommandOpMode {
         oper_B.whileHeld(new CarouselDriveForward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll()); // Carousel forward
 
 
-        // Map Driver Commands
-        driver_dpad_left.whenPressed(new StrafeDistance(m_defaultdrive, 0.5, 10.0, "LEFT", telemetry));
-        driver_dpad_right.whenPressed(new StrafeDistance(m_defaultdrive, 0.5, 10.0, "RIGHT", telemetry));
-
-
-        // Auto scoring commands (temporary)
-        driver_x.whenPressed(new LowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
-        driver_b.whenPressed(new MidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
-        driver_y.whenPressed(new HighScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+//        // Map Driver Commands
+//        driver_dpad_left.whenPressed(new StrafeDistance(m_defaultdrive, 0.5, 10.0, "LEFT", telemetry));
+//        driver_dpad_right.whenPressed(new StrafeDistance(m_defaultdrive, 0.5, 10.0, "RIGHT", telemetry));
+//
+//
+//        // Auto scoring commands (temporary)
+//        driver_x.whenPressed(new LowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+//        driver_b.whenPressed(new MidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+//        driver_y.whenPressed(new HighScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
 
 
         // Default Commands
