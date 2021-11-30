@@ -7,7 +7,6 @@ public class RobotMap {
     public static final Boolean ARM_STICK_DRIVE = false;
     public static final Boolean SENSORS_ENABLED = false;
 
-
     // Arm speeds, heights and limits
     public static final Double ARM_MOTOR_SPEED = 1.0;
     public final static Integer ARM_HIGH_LIMIT = 1850;
@@ -16,8 +15,6 @@ public class RobotMap {
     public static final Integer LOW_TARGET = 585;
     public static final Integer MID_TARGET = 1220;
     public static final Integer HI_TARGET = 1800;
-
-
 
     // Intake speeds
     public static final Double INTAKE_SPEED_IN = -1.0;
