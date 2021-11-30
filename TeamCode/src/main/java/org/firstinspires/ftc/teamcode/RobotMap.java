@@ -20,7 +20,6 @@ public class RobotMap {
 
 
     // Intake speeds
-
     public static final Double INTAKE_SPEED_IN = -1.0;
     public static final Double INTAKE_SPEED_OUT = 1.0;
 
@@ -35,7 +34,6 @@ public class RobotMap {
     public static final Double CAROUSEL_SPEED_REVERSE = -0.23;
 
     // Vision
-
     public static final String VUFORIA_KEY = "ARKNcpL/////AAABmaul75WJu02hpEsBG/MnvsZ0aacsUMH0zc+d53A" +
             "KGDU3mzdXJQzSDPuea0rokovM0/U3INJNoaNvGx+Xnk9tFdgMVitg+hE32fMsH4f5KLF9CqJyqRynTBo55jfOsN4UbPMO6ij" +
             "MdpQg7PPUg8O7pd5HNOjoDx+MKgZ+FldA4uCCj5vEansKoP5++7V0a/E/0j4MClpdkUA/7cf9WSNS8opUnl9lAyNpOEiOa0b" +

@@ -31,6 +31,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
 import org.firstinspires.ftc.teamcode.RobotMap;
 
+import java.util.Map;
+
 
 @TeleOp(name="RobotTeleop", group="Competition")
 public class RobotTeleop extends CommandOpMode {
@@ -38,14 +40,22 @@ public class RobotTeleop extends CommandOpMode {
     @Override
     public void initialize() {
 
-//        telemetry.setAutoClear(true);
-
         // Drive Motors
         MotorEx motorBackLeft = new MotorEx(hardwareMap, "motorBackLeft", Motor.GoBILDA.RPM_312);
         MotorEx motorBackRight = new MotorEx(hardwareMap, "motorBackRight", Motor.GoBILDA.RPM_312);
         MotorEx motorFrontLeft = new MotorEx(hardwareMap, "motorFrontLeft", Motor.GoBILDA.RPM_312);
         MotorEx motorFrontRight = new MotorEx(hardwareMap, "motorFrontRight", Motor.GoBILDA.RPM_312);
 
+        // Intake Motors
+        CRServo servoIntake = new CRServo(hardwareMap, "servoIntake");
+
+        // Arm Motors
+        MotorEx motorArm = new MotorEx(hardwareMap, "motorArm", Motor.GoBILDA.RPM_312);
+        motorArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        motorArm.resetEncoder();
+
+        // Carousel Motor
+        MotorEx motorCarousel = new MotorEx(hardwareMap, "motorCarousel");
 
 
         //Gyro
@@ -58,26 +68,6 @@ public class RobotTeleop extends CommandOpMode {
         GamepadEx m_operatorGamepad = new GamepadEx(gamepad2);
 
 
-
-        // Drivetrain Subsystem
-        DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
-                                                                 motorFrontLeft, motorFrontRight,
-                                                                 telemetry, m_gyro, RobotMap.DRIVE_MODE);
-
-
-        /* Default Drive Command
-           Set the default command for the drivetrain to be gamepad controlled
-        */
-
-
-
-        register(m_defaultdrive);
-        m_defaultdrive.setDefaultCommand(new DefaultDrive(m_defaultdrive, m_driverGamepad, telemetry));
-
-        GamepadButton driver_x = m_driverGamepad.getGamepadButton(GamepadKeys.Button.X);
-        GamepadButton driver_b = m_driverGamepad.getGamepadButton(GamepadKeys.Button.B);
-        GamepadButton driver_y = m_driverGamepad.getGamepadButton(GamepadKeys.Button.Y);
-
         if (RobotMap.SENSORS_ENABLED) {
             Vision m_vision = new Vision(hardwareMap, telemetry);
             register(m_vision);
@@ -88,93 +78,75 @@ public class RobotTeleop extends CommandOpMode {
             Sensors m_sensors = new Sensors(colorSensor, touchSensor, telemetry);
         }
 
-        /* Intake subsystem
-
-        Enabled/disabled at the top setting the INTAKE_ENABLED value to true/false
-
-        Left and right servos are set to continuous rotation.
-
-        Holding the Y button runs them "forward" (out) using the IntakeOut command
-        Holding the A button runs them "inward" using the IntakeIn command
-        Letting go of the button stops the servos
-         */
-        CRServo servoIntake = new CRServo(hardwareMap, "servoIntake");
+        // Subsystems
 
         Intake m_intake = new Intake(servoIntake, telemetry);
+        Arm m_arm = new Arm(motorArm, telemetry);
+        Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
+        DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
+                motorFrontLeft, motorFrontRight,
+                telemetry, m_gyro, RobotMap.DRIVE_MODE);
+
+
+
+        // Operator Buttons
         GamepadButton oper_a = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.A);
         GamepadButton oper_y = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.Y);
+        GamepadButton oper_X = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.X);
+        GamepadButton oper_B = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.B);
 
-        oper_a.whileHeld(new IntakeIn(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake());
-        oper_y.whileHeld(new IntakeOut(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake());
+        GamepadButton oper_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
+        GamepadButton oper_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
+        GamepadButton oper_dpad_right = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
+        GamepadButton oper_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
+
+        // Driver buttons
+        GamepadButton driver_a = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.A);
+        GamepadButton driver_x = m_driverGamepad.getGamepadButton(GamepadKeys.Button.X);
+        GamepadButton driver_b = m_driverGamepad.getGamepadButton(GamepadKeys.Button.B);
+        GamepadButton driver_y = m_driverGamepad.getGamepadButton(GamepadKeys.Button.Y);
+
+        GamepadButton driver_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
+        GamepadButton driver_dpad_left = m_driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
+        GamepadButton driver_dpad_right = m_driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
+        GamepadButton driver_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
 
 
-        /* Arm subsystem
+        // Map Operator Commands
 
-        Enabled/disabled at the top setting the ARM_ENABLED value to true/false
+        oper_a.whileHeld(new IntakeIn(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake()); // Intake In
+        oper_y.whileHeld(new IntakeOut(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake()); // Intake Out
+        oper_X.whileHeld(new CarouselDriveBackward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll()); // Carousel backward
+        oper_B.whileHeld(new CarouselDriveForward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll()); // Carousel forward
 
-        Left and right servos are set to continuous rotation.
 
-        Holding the DPAD_UP drives the arm to the setpoint on the encoder using a PID
-        Holding the DPAD_DOWN drives the arm to the setpoint on the encoder using a PID
-        Holding the DPAD_LEFT drives the arm backwards at a set speed using the ArmDriveBackward
-        Holding the DPAD_RIGHT drives the arm forward at a set speed using the ArmDriveForward
-         */
+        // Map Driver Commands
+        driver_dpad_left.whenPressed(new StrafeDistance(m_defaultdrive, 0.5, 10.0, "LEFT", telemetry));
+        driver_dpad_right.whenPressed(new StrafeDistance(m_defaultdrive, 0.5, 10.0, "RIGHT", telemetry));
 
-        MotorEx motorArm = new MotorEx(hardwareMap, "motorArm", Motor.GoBILDA.RPM_312);
-        motorArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        motorArm.resetEncoder();
 
-        Arm m_arm = new Arm(motorArm, telemetry);
+        // Auto scoring commands (temporary)
+        driver_x.whenPressed(new LowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+        driver_b.whenPressed(new MidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+        driver_y.whenPressed(new HighScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+
+
+        // Default Commands
+
+        register(m_defaultdrive);
+        m_defaultdrive.setDefaultCommand(new DefaultDrive(m_defaultdrive, m_driverGamepad, telemetry));
 
         if (RobotMap.ARM_STICK_DRIVE) {
-
             register(m_arm);
             m_arm.setDefaultCommand(new ArmDefaultDrive(m_arm, m_operatorGamepad, telemetry));
 
         } else {
-            GamepadButton oper_dpad_up = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP);
-            GamepadButton oper_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
-            GamepadButton oper_dpad_right = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
-            GamepadButton oper_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
-
-
             oper_dpad_up.whenPressed(new ArmToPosition(m_arm, RobotMap.HI_TARGET, telemetry));
             oper_dpad_right.whenPressed(new ArmToPosition(m_arm, RobotMap.MID_TARGET, telemetry));
             oper_dpad_left.whenPressed(new ArmToPosition(m_arm, RobotMap.LOW_TARGET, telemetry));
             oper_dpad_down.whenPressed(new ArmToPosition(m_arm, RobotMap.PICKUP, telemetry));
         }
-
-        /* Carousel subsystem
-
-        Enabled/disabled at the top setting the ARM_ENABLED value to true/false
-
-
-        Holding the DPAD_LEFT drives the arm backwards at a set speed using the CarouselDriveBackward
-        Holding the DPAD_RIGHT drives the arm forward at a set speed using the CarouselDriveForward
-         */
-
-        MotorEx motorCarousel = new MotorEx(hardwareMap, "motorCarousel");
-
-        Carousel m_carousel = new Carousel(motorCarousel, telemetry);
-
-        GamepadButton oper_X = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.X);
-        GamepadButton oper_B = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.B);
-
-        oper_X.whileHeld(new CarouselDriveBackward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll());
-        oper_B.whileHeld(new CarouselDriveForward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll());
-
-
-
-        driver_x.whenPressed(new LowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
-        driver_b.whenPressed(new MidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
-        driver_y.whenPressed(new HighScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
-
-        GamepadButton driver_dpad_left = m_driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
-        GamepadButton driver_dpad_right = m_driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
-
-        driver_dpad_left.whenPressed(new StrafeDistance(m_defaultdrive, 0.5, 10.0, "LEFT", telemetry));
-        driver_dpad_right.whenPressed(new StrafeDistance(m_defaultdrive, 0.5, 10.0, "RIGHT", telemetry));
 
         telemetry.addLine("Robot Initialized");
         telemetry.update();
