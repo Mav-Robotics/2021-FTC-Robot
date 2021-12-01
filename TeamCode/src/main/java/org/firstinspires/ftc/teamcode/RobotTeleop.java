@@ -12,9 +12,6 @@ import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.HighScoreAndPark;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.LowScoreAndPark;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.MidScoreAndPark;
 import org.firstinspires.ftc.teamcode.commands.ArmDefaultDrive;
 import org.firstinspires.ftc.teamcode.commands.ArmToPosition;
 import org.firstinspires.ftc.teamcode.commands.CarouselDriveBackward;
@@ -22,16 +19,12 @@ import org.firstinspires.ftc.teamcode.commands.CarouselDriveForward;
 import org.firstinspires.ftc.teamcode.commands.DefaultDrive;
 import org.firstinspires.ftc.teamcode.commands.IntakeIn;
 import org.firstinspires.ftc.teamcode.commands.IntakeOut;
-import org.firstinspires.ftc.teamcode.commands.StrafeDistance;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
-import org.firstinspires.ftc.teamcode.RobotMap;
-
-import java.util.Map;
 
 
 @TeleOp(name="RobotTeleop", group="Competition")

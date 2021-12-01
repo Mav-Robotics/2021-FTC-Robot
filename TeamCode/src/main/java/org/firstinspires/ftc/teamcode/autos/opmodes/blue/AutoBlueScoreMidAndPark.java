@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autos.opmodes.blue;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.hardware.RevIMU;
@@ -9,8 +9,8 @@ import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.autos.red.warehouse.RedParkWarehouse;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.HighScoreAndPark;
+import org.firstinspires.ftc.teamcode.RobotMap;
+import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedMidScoreAndPark;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
 
 
-@Autonomous(name="Red Park Warehouse", group="Warehouse")
-public class AutoRedParkWarehouse extends CommandOpMode {
+@Autonomous(name="Blue Score Mid and Park", group="Blue Score and Park")
+public class AutoBlueScoreMidAndPark extends CommandOpMode {
 
     @Override
     public void initialize() {
@@ -40,11 +40,11 @@ public class AutoRedParkWarehouse extends CommandOpMode {
         m_gyro.init();
         m_gyro.reset();
 
+
         // Drivetrain Subsystem
         DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
                                                                  motorFrontLeft, motorFrontRight,
                                                                  telemetry, m_gyro, "RC");
-
 
         if (RobotMap.SENSORS_ENABLED) {
             Vision m_vision = new Vision(hardwareMap, telemetry);
@@ -55,6 +55,7 @@ public class AutoRedParkWarehouse extends CommandOpMode {
 
             Sensors m_sensors = new Sensors(colorSensor, touchSensor, telemetry);
         }
+
 
         CRServo servoIntake = new CRServo(hardwareMap, "servoIntake");
 
@@ -70,7 +71,8 @@ public class AutoRedParkWarehouse extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new RedParkWarehouse(m_defaultdrive, m_arm, m_intake, telemetry));
+        schedule(new RedMidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+
 
         telemetry.addLine("Robot Initialized");
         telemetry.update();
