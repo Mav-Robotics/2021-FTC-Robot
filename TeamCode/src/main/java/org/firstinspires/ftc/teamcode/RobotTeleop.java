@@ -11,7 +11,9 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch;
 import org.firstinspires.ftc.teamcode.commands.ArmDefaultDrive;
 import org.firstinspires.ftc.teamcode.commands.ArmToPosition;
 import org.firstinspires.ftc.teamcode.commands.CarouselDriveBackward;
@@ -47,6 +49,10 @@ public class RobotTeleop extends CommandOpMode {
         motorArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motorArm.resetEncoder();
 
+        // Arm limit switches
+        TouchSensor armLowLimit = hardwareMap.touchSensor.get("armLowLimit");
+
+
         // Carousel Motor
         MotorEx motorCarousel = new MotorEx(hardwareMap, "motorCarousel");
 
@@ -74,7 +80,7 @@ public class RobotTeleop extends CommandOpMode {
         // Subsystems
 
         Intake m_intake = new Intake(servoIntake, telemetry);
-        Arm m_arm = new Arm(motorArm, telemetry);
+        Arm m_arm = new Arm(motorArm, armLowLimit, telemetry);
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
         DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
@@ -110,8 +116,8 @@ public class RobotTeleop extends CommandOpMode {
 
         oper_a.whileHeld(new IntakeIn(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake()); // Intake In
         oper_y.whileHeld(new IntakeOut(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake()); // Intake Out
-        oper_X.whileHeld(new CarouselDriveBackward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll()); // Carousel backward
-        oper_B.whileHeld(new CarouselDriveForward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll()); // Carousel forward
+        oper_B.whileHeld(new CarouselDriveBackward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll()); // Carousel backward
+        oper_X.whileHeld(new CarouselDriveForward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll()); // Carousel forward
 
 
 //        // Map Driver Commands

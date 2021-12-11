@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotMap;
@@ -16,11 +17,13 @@ import org.firstinspires.ftc.teamcode.RobotMap;
 public class Arm extends SubsystemBase {
     Telemetry m_telemetry;
     MotorEx m_armMotor;
+    TouchSensor m_armLowLimit;
 
-    public Arm(MotorEx armMotor, Telemetry telemetry) {
+    public Arm(MotorEx armMotor, TouchSensor armLowLimit, Telemetry telemetry) {
 
         m_armMotor = armMotor;
         m_telemetry = telemetry;
+        m_armLowLimit = armLowLimit;
 
         m_armMotor.setRunMode(Motor.RunMode.PositionControl);
         m_armMotor.setPositionTolerance(5.0);
@@ -32,8 +35,14 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (m_armLowLimit.isPressed()) {
+            m_armMotor.resetEncoder();
+        }
+
         m_telemetry.addData("Arm Motor Clicks", m_armMotor.getCurrentPosition());
         m_telemetry.addData("Arm Output", m_armMotor.get());
+        m_telemetry.addData("Arm Low Limit", armAtBottom());
+
     }
 
 
@@ -72,7 +81,12 @@ public class Arm extends SubsystemBase {
     }
 
     public boolean armAtBottom() {
-        return m_armMotor.getCurrentPosition() <= RobotMap.ARM_LOW_LIMIT;
+        if (m_armLowLimit.isPressed()) {
+            m_armMotor.resetEncoder();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void stopAll() { m_armMotor.set(0); }

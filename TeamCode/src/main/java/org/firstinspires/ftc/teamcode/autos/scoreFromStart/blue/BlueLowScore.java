@@ -16,7 +16,7 @@ public class BlueLowScore extends SequentialCommandGroup {
     public BlueLowScore(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry) {
         addCommands(
                 new ArmToPosition(arm, RobotMap.LOW_TARGET, telemetry),
-                new TurnToAngle(drivetrain, 9.0, 0.5),
+                new TurnToAngle(drivetrain, -9.0, 0.5),
                 new DriveDistance(drivetrain, 0.6, 18.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new IntakeOut(intake, telemetry).withTimeout(2000).whenFinished(() -> intake.stopIntake()),
                 new DriveDistance(drivetrain, 0.6, -18.0, telemetry).whenFinished(() -> drivetrain.stopAll()),

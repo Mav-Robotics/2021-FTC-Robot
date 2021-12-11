@@ -8,8 +8,10 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
+import org.firstinspires.ftc.teamcode.autos.scoreAndPark.blue.BlueLowScoreAndPark;
 import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedLowScoreAndPark;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
@@ -64,13 +66,14 @@ public class AutoBlueScoreLowAndPark extends CommandOpMode {
         motorArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motorArm.resetEncoder();
 
-        Arm m_arm = new Arm(motorArm, telemetry);
+        TouchSensor armLowLimit = hardwareMap.touchSensor.get("armLowLimit");
+        Arm m_arm = new Arm(motorArm, armLowLimit, telemetry);
 
         MotorEx motorCarousel = new MotorEx(hardwareMap, "motorCarousel");
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new RedLowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+        schedule(new BlueLowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
 
 
         telemetry.addLine("Robot Initialized");

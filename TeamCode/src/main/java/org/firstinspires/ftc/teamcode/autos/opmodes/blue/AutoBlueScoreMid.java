@@ -11,8 +11,9 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.blue.BlueMidScoreAndPark;
 import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedMidScoreAndPark;
+import org.firstinspires.ftc.teamcode.autos.scoreFromStart.blue.BlueMidScore;
+import org.firstinspires.ftc.teamcode.autos.scoreFromStart.red.RedMidScore;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
@@ -21,8 +22,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
 
 
-@Autonomous(name="Blue Score Mid and Park", group="Blue Score and Park")
-public class AutoBlueScoreMidAndPark extends CommandOpMode {
+@Autonomous(name="Blue Score Mid", group="Blue Score")
+public class AutoBlueScoreMid extends CommandOpMode {
 
     @Override
     public void initialize() {
@@ -74,7 +75,7 @@ public class AutoBlueScoreMidAndPark extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new BlueMidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+        schedule(new BlueMidScore(m_defaultdrive, m_arm, m_intake, telemetry));
 
 
         telemetry.addLine("Robot Initialized");

@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
 import org.firstinspires.ftc.teamcode.autos.warehouse.red.RedParkWarehouse;
@@ -64,7 +65,8 @@ public class AutoRedParkWarehouse extends CommandOpMode {
         motorArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motorArm.resetEncoder();
 
-        Arm m_arm = new Arm(motorArm, telemetry);
+        TouchSensor armLowLimit = hardwareMap.touchSensor.get("armLowLimit");
+        Arm m_arm = new Arm(motorArm, armLowLimit, telemetry);
 
         MotorEx motorCarousel = new MotorEx(hardwareMap, "motorCarousel");
 

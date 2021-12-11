@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.blue.BlueMidScoreAndPark;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedMidScoreAndPark;
+import org.firstinspires.ftc.teamcode.autos.warehouse.blue.BlueParkWarehouse;
+import org.firstinspires.ftc.teamcode.autos.warehouse.red.RedParkWarehouse;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
@@ -21,8 +21,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
 
 
-@Autonomous(name="Blue Score Mid and Park", group="Blue Score and Park")
-public class AutoBlueScoreMidAndPark extends CommandOpMode {
+@Autonomous(name="Blue Park Warehouse", group="Warehouse")
+public class AutoBlueParkWarehouse extends CommandOpMode {
 
     @Override
     public void initialize() {
@@ -42,11 +42,11 @@ public class AutoBlueScoreMidAndPark extends CommandOpMode {
         m_gyro.init();
         m_gyro.reset();
 
-
         // Drivetrain Subsystem
         DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
                                                                  motorFrontLeft, motorFrontRight,
                                                                  telemetry, m_gyro, "RC");
+
 
         if (RobotMap.SENSORS_ENABLED) {
             Vision m_vision = new Vision(hardwareMap, telemetry);
@@ -57,7 +57,6 @@ public class AutoBlueScoreMidAndPark extends CommandOpMode {
 
             Sensors m_sensors = new Sensors(colorSensor, touchSensor, telemetry);
         }
-
 
         CRServo servoIntake = new CRServo(hardwareMap, "servoIntake");
 
@@ -74,8 +73,7 @@ public class AutoBlueScoreMidAndPark extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new BlueMidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
-
+        schedule(new BlueParkWarehouse(m_defaultdrive, m_arm, m_intake, telemetry));
 
         telemetry.addLine("Robot Initialized");
         telemetry.update();
