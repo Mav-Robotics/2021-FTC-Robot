@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.blue.BlueLowScoreAndPark;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedLowScoreAndPark;
+import org.firstinspires.ftc.teamcode.autos.warehouse.blue.BlueParkWarehouse;
+import org.firstinspires.ftc.teamcode.autos.warehouse.red.RedParkWarehouse;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
 
 
-@Autonomous(name="Blue Score Low and Park", group="Blue Score and Park")
-public class AutoBlueScoreLowAndPark extends CommandOpMode {
+@Autonomous(name="Blue Park Warehouse", group="Warehouse")
+public class AutoBlueParkWarehouse extends CommandOpMode {
 
     @Override
     public void initialize() {
@@ -41,11 +41,11 @@ public class AutoBlueScoreLowAndPark extends CommandOpMode {
         m_gyro.init();
         m_gyro.reset();
 
-
         // Drivetrain Subsystem
         DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
                                                                  motorFrontLeft, motorFrontRight,
                                                                  telemetry, m_gyro, "RC");
+
 
         if (RobotMap.SENSORS_ENABLED) {
             Vision m_vision = new Vision(hardwareMap, telemetry);
@@ -71,8 +71,7 @@ public class AutoBlueScoreLowAndPark extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new BlueLowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
-
+        schedule(new BlueParkWarehouse(m_defaultdrive, m_arm, m_intake, telemetry));
 
         telemetry.addLine("Robot Initialized");
         telemetry.update();
