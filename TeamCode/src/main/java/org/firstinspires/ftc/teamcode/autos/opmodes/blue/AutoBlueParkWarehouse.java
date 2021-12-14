@@ -66,8 +66,7 @@ public class AutoBlueParkWarehouse extends CommandOpMode {
         motorArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motorArm.resetEncoder();
 
-        TouchSensor armLowLimit = hardwareMap.touchSensor.get("armLowLimit");
-        Arm m_arm = new Arm(motorArm, armLowLimit, telemetry);
+        Arm m_arm = new Arm(motorArm, telemetry);
 
         MotorEx motorCarousel = new MotorEx(hardwareMap, "motorCarousel");
 

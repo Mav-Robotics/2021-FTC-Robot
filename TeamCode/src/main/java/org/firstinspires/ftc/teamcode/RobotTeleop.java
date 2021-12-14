@@ -49,9 +49,6 @@ public class RobotTeleop extends CommandOpMode {
         motorArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motorArm.resetEncoder();
 
-        // Arm limit switches
-        TouchSensor armLowLimit = hardwareMap.touchSensor.get("armLowLimit");
-
 
         // Carousel Motor
         MotorEx motorCarousel = new MotorEx(hardwareMap, "motorCarousel");
@@ -80,7 +77,7 @@ public class RobotTeleop extends CommandOpMode {
         // Subsystems
 
         Intake m_intake = new Intake(servoIntake, telemetry);
-        Arm m_arm = new Arm(motorArm, armLowLimit, telemetry);
+        Arm m_arm = new Arm(motorArm, telemetry);
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
         DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
