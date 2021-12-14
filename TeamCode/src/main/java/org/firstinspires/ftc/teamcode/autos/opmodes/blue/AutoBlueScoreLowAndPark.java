@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
+import org.firstinspires.ftc.teamcode.autos.scoreAndPark.blue.BlueLowScoreAndPark;
 import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedLowScoreAndPark;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
@@ -70,7 +71,7 @@ public class AutoBlueScoreLowAndPark extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new RedLowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+        schedule(new BlueLowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
 
 
         telemetry.addLine("Robot Initialized");

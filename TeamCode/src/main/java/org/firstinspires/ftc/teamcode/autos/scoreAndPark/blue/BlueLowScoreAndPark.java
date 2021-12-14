@@ -25,7 +25,7 @@ public class BlueLowScoreAndPark extends SequentialCommandGroup {
                 new ArmToPosition(arm, RobotMap.PICKUP, telemetry).whenFinished(() -> arm.stopAll()),
                 new TurnToAngle(drivetrain, 90.0, 0.5),
                 new DriveDistance(drivetrain, 0.6, -54.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
-                new StrafeDistance(drivetrain, 0.6, 10.0, "LEFT", telemetry).whenFinished(() -> drivetrain.stopAll())
+                new StrafeDistance(drivetrain, 0.6, 10.0, "RIGHT", telemetry).whenFinished(() -> drivetrain.stopAll())
                 );
 
         addRequirements(arm, drivetrain, intake);
