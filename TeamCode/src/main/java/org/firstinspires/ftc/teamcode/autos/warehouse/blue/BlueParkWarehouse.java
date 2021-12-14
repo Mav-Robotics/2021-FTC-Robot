@@ -18,7 +18,7 @@ public class BlueParkWarehouse extends SequentialCommandGroup {
         addCommands(
                 new DriveDistance(drivetrain, 0.6, 1.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new TurnToAngle(drivetrain, 90.0, 0.5),
-                new StrafeDistance(drivetrain, 0.6, 1.5, "LEFT", telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new StrafeDistance(drivetrain, 0.6, 3.0, "LEFT", telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new DriveDistance(drivetrain, 0.6, 38.0, telemetry).whenFinished(() -> drivetrain.stopAll())
                 );
 
