@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -48,15 +49,13 @@ public class AutoBlueScoreHighAndPark extends CommandOpMode {
                                                                  telemetry, m_gyro, "RC");
 
 
-        if (RobotMap.SENSORS_ENABLED) {
-            Vision m_vision = new Vision(hardwareMap, telemetry);
-            register(m_vision);
+        // Sensors
+        Rev2mDistanceSensor m_distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
+        Rev2mDistanceSensor m_distanceRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceRight");
+        Rev2mDistanceSensor m_distanceRear = hardwareMap.get(Rev2mDistanceSensor.class, "distanceRear");
 
-            ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
-            RevTouchSensor touchSensor = hardwareMap.get(RevTouchSensor.class, "touchSensor");
+        Sensors m_sensors = new Sensors(m_distanceLeft, m_distanceRight, m_distanceRear, telemetry);
 
-            Sensors m_sensors = new Sensors(colorSensor, touchSensor, telemetry);
-        }
 
         CRServo servoIntake = new CRServo(hardwareMap, "servoIntake");
 

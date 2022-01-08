@@ -5,12 +5,15 @@ import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.RevIMU;
+import com.arcrobotics.ftclib.hardware.SensorDistance;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch;
@@ -63,16 +66,13 @@ public class RobotTeleop extends CommandOpMode {
         GamepadEx m_driverGamepad = new GamepadEx(gamepad1);
         GamepadEx m_operatorGamepad = new GamepadEx(gamepad2);
 
+        // Sensors
+        DistanceSensor m_distanceLeft = hardwareMap.get(DistanceSensor.class, "distanceLeft");
+        DistanceSensor m_distanceRight = hardwareMap.get(DistanceSensor.class, "distanceRight");
+        DistanceSensor m_distanceRear = hardwareMap.get(DistanceSensor.class, "distanceRear");
 
-        if (RobotMap.SENSORS_ENABLED) {
-            Vision m_vision = new Vision(hardwareMap, telemetry);
-            register(m_vision);
+        Sensors m_sensors = new Sensors(m_distanceLeft, m_distanceRight, m_distanceRear, telemetry);
 
-            ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
-            RevTouchSensor touchSensor = hardwareMap.get(RevTouchSensor.class, "touchSensor");
-
-            Sensors m_sensors = new Sensors(colorSensor, touchSensor, telemetry);
-        }
 
         // Subsystems
 

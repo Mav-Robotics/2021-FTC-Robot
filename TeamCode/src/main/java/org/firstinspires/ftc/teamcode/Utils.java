@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Utils {
 
     public static class RampRate {
@@ -68,6 +71,18 @@ public class Utils {
         error -= numMin * modulus;
 
         return error;
+    }
+
+    public static double round(double value, int places){
+        if (places < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        BigDecimal a = new BigDecimal(Double.toString(value));
+
+        a = a.setScale(places, RoundingMode.HALF_UP);
+        return a.doubleValue();
+
     }
 }
 
