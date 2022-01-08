@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
@@ -16,6 +17,9 @@ public class DriveDistance extends CommandBase {
         m_speed = speed;
         m_distance = distance;
         addRequirements(drivetrain);
+    }
+
+    public DriveDistance(TurnToAngle turnToAngle, Command whenFinished, Command whenFinished1, Command whenFinished2, Command whenFinished3, TurnToAngle turnToAngle1, Command whenFinished4, Command left) {
     }
 
     @Override
