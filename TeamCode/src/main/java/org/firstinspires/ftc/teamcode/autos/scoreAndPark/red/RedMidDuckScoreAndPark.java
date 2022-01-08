@@ -17,6 +17,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 public class RedMidDuckScoreAndPark extends SequentialCommandGroup {
 
 
+    private final Object CarouselDriveForward;
+
     RedMidDuckScoreAndPark(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry) {
         Carousel carousel = null;
         addCommands(
@@ -24,7 +26,7 @@ public class RedMidDuckScoreAndPark extends SequentialCommandGroup {
                 new DriveDistance(drivetrain, 0.6, 10.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new TurnToAngle(drivetrain, 45.0, 0.5),
                 new DriveDistance(drivetrain, 0.6, -10.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
-                new CarouselDriveForward(carousel , telemetry).withTimeout(3000).whenFinished(()-> carousel.stopAll()),
+                new CarouselDriveForward(null, telemetry).withTimeout(3000).whenFinished(()-> carousel.stopAll()),
                 new DriveDistance(drivetrain, 0.6, 15.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new ArmToPosition(arm, RobotMap.PICKUP, telemetry).whenFinished(() -> arm.stopAll()),
                 new IntakeOut(intake, telemetry).withTimeout(2000).whenFinished(() -> intake.stopIntake()),
@@ -36,5 +38,6 @@ public class RedMidDuckScoreAndPark extends SequentialCommandGroup {
         );
 
         addRequirements(arm, drivetrain, intake);
+        CarouselDriveForward = null;
     }
 }
