@@ -17,8 +17,8 @@ public class RobotMap {
     public static final Integer HI_TARGET = 1800;
 
     // Intake speeds
-    public static final Double INTAKE_SPEED_IN = -1.0;
-    public static final Double INTAKE_SPEED_OUT = 1.0;
+    public static final Double INTAKE_SPEED_IN = -0.5;
+    public static final Double INTAKE_SPEED_OUT = 0.5;
 
     // Drivetrain
     public static final Double STRAFE_MULT = 1.0;
