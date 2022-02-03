@@ -22,7 +22,8 @@ public class RobotMap {
 
     // Drivetrain
     public static final Double STRAFE_MULT = 1.0;
-    public static final Double FORWARD_MULT = 0.5;
+    public static final Double FORWARD_MULT = 0.75;
+    public static final Double REVERSE_MULT = 0.75;
     public static final Double TURN_MULT = 0.5;
     public static final Double MM_PER_PULSE = 0.55;
 
