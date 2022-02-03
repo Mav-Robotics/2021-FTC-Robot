@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.autos.opmodes.blue;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -10,13 +11,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedMidScoreAndPark;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
+
+import java.util.Set;
 
 
 @Autonomous(name="Blue Mid Duck Score and Park", group="Blue Score and Park")
@@ -71,7 +73,12 @@ public class AutoBlueMidDuckScoreAndPark extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new RedMidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+        schedule(new BlueMidDuckScoreAndParkScoreAndPark(m_arm, m_intake, telemetry) {
+            @Override
+            public Set<Subsystem> getRequirements() {
+                return null;
+            }
+        });
 
 
         telemetry.addLine("Robot Initialized");

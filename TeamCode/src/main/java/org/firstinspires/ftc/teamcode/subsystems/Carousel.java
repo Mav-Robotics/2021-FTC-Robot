@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.controller.PIDController;
-import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -30,4 +28,8 @@ public class Carousel extends SubsystemBase {
     }
 
     public void stopAll() { m_carouselMotor.set(0); }
+
+    public void withTimeout(int i) {
+    }
+
 }

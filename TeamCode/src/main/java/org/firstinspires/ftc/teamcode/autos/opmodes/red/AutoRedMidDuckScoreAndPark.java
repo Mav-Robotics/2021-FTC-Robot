@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedMidScoreAndPark;
+import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedMidDuckScoreAndPark;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
@@ -71,7 +71,7 @@ public class AutoRedMidDuckScoreAndPark extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new RedMidScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+        schedule(new RedMidDuckScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry, carouselDriveForward));
 
 
         telemetry.addLine("Robot Initialized");

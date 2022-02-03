@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotMap;
@@ -10,7 +11,7 @@ public class CarouselDriveBackward extends CommandBase {
     private Carousel m_carousel;
     private Telemetry m_telemetry;
 
-    public CarouselDriveBackward(Carousel carousel, Telemetry telemetry) {
+    public CarouselDriveBackward(MotorEx carousel, Telemetry telemetry) {
         m_carousel = carousel;
         m_telemetry = telemetry;
         addRequirements(carousel);

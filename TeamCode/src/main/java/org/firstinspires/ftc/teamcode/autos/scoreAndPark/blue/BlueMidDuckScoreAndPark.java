@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.autos.scoreAndPark.blue;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.Subsystem;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotMap;
 import org.firstinspires.ftc.teamcode.commands.ArmToPosition;
+import org.firstinspires.ftc.teamcode.commands.CarouselDriveBackward;
 import org.firstinspires.ftc.teamcode.commands.CarouselDriveForward;
 import org.firstinspires.ftc.teamcode.commands.DriveDistance;
 import org.firstinspires.ftc.teamcode.commands.IntakeOut;
@@ -17,27 +20,25 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 public class BlueMidDuckScoreAndPark extends SequentialCommandGroup {
 
 
-    private final Object CarouselDriveForward;
+    private final Object CarouselDriveBackwards;
+    private Object Carousel = null;
 
-    BlueMidDuckScoreAndPark(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry) {
+    public BlueMidDuckScoreAndPark(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry, Object carouselDriveBackwards) {
+        CarouselDriveBackwards = carouselDriveBackwards;
         Carousel carousel = null;
-        addCommands(
-                new ArmToPosition(arm, RobotMap.MID_TARGET, telemetry),
+        addCommands(new ArmToPosition(arm, RobotMap.MID_TARGET, telemetry),
                 new DriveDistance(drivetrain, 0.6, 10.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
-                new TurnToAngle(drivetrain, -45.0, 0.5),
-                new DriveDistance(drivetrain, 0.6, -10.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
-                new CarouselDriveForward(null, telemetry).withTimeout(3000).whenFinished(()-> carousel.stopAll()),
-                new DriveDistance(drivetrain, 0.6, 15.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new StrafeDistance(drivetrain, 0.6, 21.5, "RIGHT", telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new DriveDistance(drivetrain, 0.4, -2.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new CarouselDriveBackward((MotorEx) Carousel, telemetry).withTimeout(3000).whenFinished(() -> carousel.stopAll()),
+                new StrafeDistance(drivetrain, 0.6, 21.5, "LEFT", telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new ArmToPosition(arm, RobotMap.PICKUP, telemetry).whenFinished(() -> arm.stopAll()),
-                new IntakeOut(intake, telemetry).withTimeout(2000).whenFinished(() -> intake.stopIntake()),
+                new IntakeOut(intake, telemetry).withTimeout(2500).whenFinished(() -> intake.stopIntake()),
                 new TurnToAngle(drivetrain, 45.0, 0.5),
-                new DriveDistance(drivetrain, 0.6, -10.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
-                new StrafeDistance(drivetrain, 0.6, 5.0, "LEFT", telemetry).whenFinished(() -> drivetrain.stopAll())
+                new DriveDistance(drivetrain, 0.6, -21.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new StrafeDistance(drivetrain, 0.6, 5.0, "RIGHT", telemetry).whenFinished(() -> drivetrain.stopAll()));
 
-
-        );
-
-        addRequirements(arm, drivetrain, intake);
-        CarouselDriveForward = null;
+        addRequirements(arm, drivetrain, intake, (Subsystem) CarouselDriveBackwards);
+        Carousel = null;
     }
 }
