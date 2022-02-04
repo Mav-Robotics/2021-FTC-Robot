@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
+import org.firstinspires.ftc.teamcode.autos.scoreAndPark.blue.BlueMidDuckScoreAndPark;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
@@ -73,7 +74,7 @@ public class AutoBlueMidDuckScoreAndPark extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new BlueMidDuckScoreAndParkScoreAndPark(m_arm, m_intake, telemetry) {
+        schedule(new BlueMidDuckScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry, m_carousel) {
             @Override
             public Set<Subsystem> getRequirements() {
                 return null;

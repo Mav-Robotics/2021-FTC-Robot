@@ -11,7 +11,7 @@ public class CarouselDriveForward extends CommandBase {
     private Carousel m_carousel;
     private Telemetry m_telemetry;
 
-    public CarouselDriveForward(MotorEx carousel, Telemetry telemetry) {
+    public CarouselDriveForward(Carousel carousel, Telemetry telemetry) {
         m_carousel = carousel;
         m_telemetry = telemetry;
         addRequirements(carousel);

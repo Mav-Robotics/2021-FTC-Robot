@@ -19,17 +19,14 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 public class RedMidDuckScoreAndPark extends SequentialCommandGroup {
 
 
-    private final Object CarouselDriveForward;
-    private Object Carousel = null;
 
-    public RedMidDuckScoreAndPark(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry, Object carouselDriveForward) {
-        CarouselDriveForward = carouselDriveForward;
-        Carousel carousel = null;
+    public RedMidDuckScoreAndPark(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry, Carousel carousel) {
+
         addCommands(new ArmToPosition(arm, RobotMap.MID_TARGET, telemetry),
                 new DriveDistance(drivetrain, 0.6, 10.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new StrafeDistance(drivetrain, 0.6, 21.5, "LEFT", telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new DriveDistance(drivetrain, 0.4, -2.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
-                new CarouselDriveForward((MotorEx) Carousel, telemetry).withTimeout(3000).whenFinished(() -> carousel.stopAll()),
+                new CarouselDriveForward(carousel, telemetry).withTimeout(3000).whenFinished(() -> carousel.stopAll()),
                 new StrafeDistance(drivetrain, 0.6, 21.5, "RIGHT", telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new ArmToPosition(arm, RobotMap.PICKUP, telemetry).whenFinished(() -> arm.stopAll()),
                 new IntakeOut(intake, telemetry).withTimeout(2500).whenFinished(() -> intake.stopIntake()),
@@ -37,7 +34,6 @@ public class RedMidDuckScoreAndPark extends SequentialCommandGroup {
                 new DriveDistance(drivetrain, 0.6, -21.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new StrafeDistance(drivetrain, 0.6, 5.0, "LEFT", telemetry).whenFinished(() -> drivetrain.stopAll()));
 
-        addRequirements(arm, drivetrain, intake, (Subsystem) CarouselDriveForward);
-        Carousel = null;
+        addRequirements(arm, drivetrain, intake, carousel);
     }
 }

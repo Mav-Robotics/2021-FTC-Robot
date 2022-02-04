@@ -71,7 +71,7 @@ public class AutoRedMidDuckScoreAndPark extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new RedMidDuckScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry, carouselDriveForward));
+        schedule(new RedMidDuckScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry, m_carousel));
 
 
         telemetry.addLine("Robot Initialized");
