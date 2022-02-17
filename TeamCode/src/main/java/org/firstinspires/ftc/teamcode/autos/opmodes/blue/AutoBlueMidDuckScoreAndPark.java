@@ -75,10 +75,6 @@ public class AutoBlueMidDuckScoreAndPark extends CommandOpMode {
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
         schedule(new BlueMidDuckScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry, m_carousel) {
-            @Override
-            public Set<Subsystem> getRequirements() {
-                return null;
-            }
         });
 
 

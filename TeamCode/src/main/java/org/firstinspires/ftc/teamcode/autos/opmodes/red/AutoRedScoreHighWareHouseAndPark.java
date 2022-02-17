@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autos.opmodes.blue;
+package org.firstinspires.ftc.teamcode.autos.opmodes.red;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.hardware.RevIMU;
@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.blue.BlueLowScoreAndPark;
 import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedLowScoreAndPark;
+import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedScoreAndParkWarehouse;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
 
 
-@Autonomous(name="Blue Score Low and Park", group="Blue Score and Park")
-public class AutoBlueScoreLowAndPark extends CommandOpMode {
+@Autonomous(name="Red Score High Ware House and Park", group="Red Score and Park")
+public class AutoRedScoreHighWareHouseAndPark extends CommandOpMode {
 
     @Override
     public void initialize() {
@@ -71,7 +71,7 @@ public class AutoBlueScoreLowAndPark extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new BlueLowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+        schedule(new RedScoreAndParkWarehouse(m_defaultdrive, m_arm, m_intake, telemetry));
 
 
         telemetry.addLine("Robot Initialized");

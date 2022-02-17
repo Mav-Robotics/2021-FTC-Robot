@@ -21,8 +21,8 @@ public class BlueMidDuckScoreAndPark extends SequentialCommandGroup {
 
     public BlueMidDuckScoreAndPark(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry, Carousel carousel) {
         addCommands(new ArmToPosition(arm, RobotMap.MID_TARGET, telemetry),
-                new DriveDistance(drivetrain, 0.6, 10.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
-                new StrafeDistance(drivetrain, 0.6, 21.5, "RIGHT", telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new DriveDistance(drivetrain, 0.6, 11.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new StrafeDistance(drivetrain, 0.6, 20.5, "RIGHT", telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new DriveDistance(drivetrain, 0.4, -2.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new CarouselDriveBackward(carousel, telemetry).withTimeout(3000).whenFinished(() -> carousel.stopAll()),
                 new StrafeDistance(drivetrain, 0.6, 21.5, "LEFT", telemetry).whenFinished(() -> drivetrain.stopAll()),

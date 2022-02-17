@@ -10,18 +10,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.blue.BlueLowScoreAndPark;
-import org.firstinspires.ftc.teamcode.autos.scoreAndPark.red.RedLowScoreAndPark;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Sensors;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
+import org.firstinspires.ftc.teamcode.autos.scoreAndPark.blue.BlueScoreAndParkWarehouse;
 
 
-@Autonomous(name="Blue Score Low and Park", group="Blue Score and Park")
-public class AutoBlueScoreLowAndPark extends CommandOpMode {
+@Autonomous(name="Blue Score High Ware House and Park", group="Blue Score and Park")
+public class AutoBlueScoreHighWareHouseAndPark extends CommandOpMode {
 
     @Override
     public void initialize() {
@@ -71,7 +70,7 @@ public class AutoBlueScoreLowAndPark extends CommandOpMode {
 
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
 
-        schedule(new BlueLowScoreAndPark(m_defaultdrive, m_arm, m_intake, telemetry));
+        schedule(new BlueScoreAndParkWarehouse(m_defaultdrive, m_arm, m_intake, telemetry));
 
 
         telemetry.addLine("Robot Initialized");

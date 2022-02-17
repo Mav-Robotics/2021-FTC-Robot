@@ -17,8 +17,8 @@ public class RobotMap {
     public static final Integer HI_TARGET = 1800;
 
     // Intake speeds
-    public static final Double INTAKE_SPEED_IN = -0.5;
-    public static final Double INTAKE_SPEED_OUT = 0.5;
+    public static final Double INTAKE_SPEED_IN = -1.0;
+    public static final Double INTAKE_SPEED_OUT = 1.0;
 
     // Drivetrain
     public static final Double STRAFE_MULT = 1.0;
@@ -28,8 +28,8 @@ public class RobotMap {
     public static final Double MM_PER_PULSE = 0.55;
 
     // Carousel
-    public static final Double CAROUSEL_SPEED_FORWARD = 0.23;
-    public static final Double CAROUSEL_SPEED_REVERSE = -0.23;
+    public static final Double CAROUSEL_SPEED_FORWARD = 0.2;
+    public static final Double CAROUSEL_SPEED_REVERSE = -0.2;
 
     // Vision
     public static final String VUFORIA_KEY = "ARKNcpL/////AAABmaul75WJu02hpEsBG/MnvsZ0aacsUMH0zc+d53A" +
@@ -38,4 +38,6 @@ public class RobotMap {
             "q2KbzC5234XlaqzE7it5yl9QhstUyAfy1rRyRYc7ClclkuK1kleXepW2FQED5MsC3S+4buqtAe2pnJA7QyHJ3PGUBQd3L5PF" +
             "VVDeXRGHIF6ZKij3R6zKbWc6/NVSc2J7S5Uz2";
 
+    public static final Double CAPPING_SPEED_FORWARD = 0.5;
+    public static final Double CAPPING_SPEED_BACKWARD = -0.5;
 }

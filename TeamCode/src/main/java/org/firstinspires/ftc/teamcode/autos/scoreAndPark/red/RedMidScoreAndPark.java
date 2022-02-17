@@ -17,11 +17,10 @@ import java.util.Locale;
 public class RedMidScoreAndPark extends SequentialCommandGroup {
 
     public RedMidScoreAndPark(DrivetrainMecanum drivetrain, Arm arm, Intake intake, Telemetry telemetry) {
-
         addCommands(
                 new ArmToPosition(arm, RobotMap.MID_TARGET, telemetry),
                 new TurnToAngle(drivetrain, 9.0, 0.5),
-                new DriveDistance(drivetrain, 0.6, 19.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new DriveDistance(drivetrain, 0.6, 18.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new IntakeOut(intake, telemetry).withTimeout(2000).whenFinished(() -> intake.stopIntake()),
                 new DriveDistance(drivetrain, 0.6, -5.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new ArmToPosition(arm, RobotMap.PICKUP, telemetry).whenFinished(() -> arm.stopAll()),

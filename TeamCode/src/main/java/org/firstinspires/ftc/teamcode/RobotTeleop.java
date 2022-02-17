@@ -50,6 +50,9 @@ public class RobotTeleop extends CommandOpMode {
         // Carousel Motor
         MotorEx motorCarousel = new MotorEx(hardwareMap, "motorCarousel");
 
+        // Capping Motor
+        CRServo servoCapping = new CRServo(hardwareMap, "servoCapping");
+
 
         //Gyro
         RevIMU m_gyro = new RevIMU(hardwareMap, "imu");

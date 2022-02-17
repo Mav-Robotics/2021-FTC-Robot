@@ -19,13 +19,13 @@ public class BlueHighScoreAndPark extends SequentialCommandGroup {
         addCommands(
                 new ArmToPosition(arm, RobotMap.HI_TARGET, telemetry),
                 new TurnToAngle(drivetrain, -9.0, 0.5),
-                new DriveDistance(drivetrain, 0.6, 24.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new DriveDistance(drivetrain, 0.6, 22.5, telemetry).whenFinished(() -> drivetrain.stopAll()),
                 new IntakeOut(intake, telemetry).withTimeout(2000).whenFinished(() -> intake.stopIntake()),
                 new DriveDistance(drivetrain, 0.6, -5.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
-                new ArmToPosition(arm, RobotMap.LOW_TARGET, telemetry).whenFinished(() -> arm.stopAll()),
+                new ArmToPosition(arm, RobotMap.PICKUP, telemetry).whenFinished(() -> arm.stopAll()),
                 new TurnToAngle(drivetrain, 90.0, 0.5),
-                new DriveDistance(drivetrain, 0.6, -54.0, telemetry).whenFinished(() -> drivetrain.stopAll()),            new StrafeDistance(drivetrain, 0.6, 10.0, "LEFT", telemetry).whenFinished(() -> drivetrain.stopAll()),
-                new StrafeDistance(drivetrain, 0.6, 10.0, "LEFT", telemetry).whenFinished(() -> drivetrain.stopAll())
+                new DriveDistance(drivetrain, 0.6, -51.0, telemetry).whenFinished(() -> drivetrain.stopAll()),
+                new StrafeDistance(drivetrain, 0.6, 13.0, "RIGHT", telemetry).whenFinished(() -> drivetrain.stopAll())
         );
 
         addRequirements(arm, drivetrain, intake);
