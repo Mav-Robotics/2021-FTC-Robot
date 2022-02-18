@@ -14,12 +14,15 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.commands.ArmDefaultDrive;
 import org.firstinspires.ftc.teamcode.commands.ArmToPosition;
+import org.firstinspires.ftc.teamcode.commands.CappingDriverBackward;
+import org.firstinspires.ftc.teamcode.commands.CappingDriverForward;
 import org.firstinspires.ftc.teamcode.commands.CarouselDriveBackward;
 import org.firstinspires.ftc.teamcode.commands.CarouselDriveForward;
 import org.firstinspires.ftc.teamcode.commands.DefaultDrive;
 import org.firstinspires.ftc.teamcode.commands.IntakeIn;
 import org.firstinspires.ftc.teamcode.commands.IntakeOut;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
+import org.firstinspires.ftc.teamcode.subsystems.Capping;
 import org.firstinspires.ftc.teamcode.subsystems.Carousel;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainMecanum;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
@@ -79,6 +82,7 @@ public class RobotTeleop extends CommandOpMode {
         Intake m_intake = new Intake(servoIntake, telemetry);
         Arm m_arm = new Arm(motorArm, telemetry);
         Carousel m_carousel = new Carousel(motorCarousel, telemetry);
+        Capping m_capping = new Capping(servoCapping, telemetry);
 
         DrivetrainMecanum m_defaultdrive = new DrivetrainMecanum(motorBackLeft, motorBackRight,
                 motorFrontLeft, motorFrontRight,
@@ -96,6 +100,13 @@ public class RobotTeleop extends CommandOpMode {
         GamepadButton oper_dpad_left = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT);
         GamepadButton oper_dpad_right = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT);
         GamepadButton oper_dpad_down = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN);
+
+
+        GamepadButton oper_rb = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER);
+        GamepadButton oper_lb = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER);
+
+
+
 
         // Driver buttons
         GamepadButton driver_a = m_operatorGamepad.getGamepadButton(GamepadKeys.Button.A);
@@ -115,6 +126,8 @@ public class RobotTeleop extends CommandOpMode {
         oper_y.whileHeld(new IntakeOut(m_intake, telemetry)).whenReleased(() -> m_intake.stopIntake()); // Intake Out
         oper_X.whileHeld(new CarouselDriveBackward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll()); // Carousel backward
         oper_B.whileHeld(new CarouselDriveForward(m_carousel, telemetry)).whenReleased(() -> m_carousel.stopAll()); // Carousel forward
+        oper_rb.whileHeld(new CappingDriverForward(m_capping, telemetry)).whenReleased(() -> m_capping.stopCapping()); // Capping forward
+        oper_lb.whileHeld(new CappingDriverBackward(m_capping, telemetry)).whenReleased(() -> m_capping.stopCapping()); // Capping backwards
 
 
 //        // Map Driver Commands

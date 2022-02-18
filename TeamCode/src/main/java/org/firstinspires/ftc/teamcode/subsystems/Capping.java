@@ -8,8 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Capping extends SubsystemBase {
     Telemetry m_telemetry;
-    CRServo m_intake;
-    private CRServo m_capping;
+    CRServo m_capping;
 
 
     public Capping(CRServo capping, Telemetry telemetry) {
@@ -29,12 +28,12 @@ public class Capping extends SubsystemBase {
 
     public void runCapping(Double speed) {
 
-        m_intake.set(speed);
+        m_capping.set(speed);
         m_telemetry.addData("Intake speeds", "Intake: %.2f",
-                m_intake.get());
+                m_capping.get());
     }
 
-    public void stopIntake() {
+    public void stopCapping() {
         m_capping.set(0.0);
     }
 }
